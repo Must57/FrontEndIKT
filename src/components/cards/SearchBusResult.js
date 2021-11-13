@@ -4,7 +4,7 @@ import tw from "twin.macro";
 import styled from "styled-components";
 import { SectionHeading } from "components/misc/Headings";
 import { PrimaryButton as PrimaryButtonBase } from "components/misc/Buttons";
-import { ReactComponent as PriceIcon } from "feather-icons/dist/icons/euro.svg";
+
 import { ReactComponent as TimeIcon } from "feather-icons/dist/icons/calendar.svg";
 import { ReactComponent as DurationIcon } from "feather-icons/dist/icons/circle.svg";
 import { ReactComponent as ChevronLeftIcon } from "feather-icons/dist/icons/chevron-left.svg";
@@ -145,12 +145,12 @@ export default () => {
                                         </IconContainer>
                                         <Text>{card.locationText}</Text>
                                     </IconWithText>
-                                    <IconWithText>
-                                        <IconContainer>
-                                            <PriceIcon />
+                              <IconWithText>
+                              <IconContainer>
+                                            <TimeIcon />
                                         </IconContainer>
                                         <Text>{card.pricingText}</Text>
-                                    </IconWithText>
+                                 </IconWithText>
                                 </SecondaryInfoContainer>
                                 <Description>{card.description}</Description>
                             </TextInfo>

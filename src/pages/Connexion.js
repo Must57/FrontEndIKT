@@ -2,23 +2,22 @@ import React from "react";
 import AnimationRevealPage from "helpers/AnimationRevealPage.js";
 import { Container as ContainerBase } from "components/misc/Layouts";
 import tw from "twin.macro";
+import {Link} from "react-router-dom"
 import styled from "styled-components";
-import { css } from "styled-components/macro"; //eslint-disable-line
-import illustration from "images/inscriptions.svg";
+import {css} from "styled-components/macro"; //eslint-disable-line
+import illustration from "images/connexion.svg";
 import logo from "images/LogoWhite.svg";
-import googleIconImageSrc from "images/google-icon.png";
-import twitterIconImageSrc from "images/twitter-icon.png";
-import { ReactComponent as SignUpIcon } from "feather-icons/dist/icons/user-plus.svg";
+
+import { ReactComponent as LoginIcon } from "feather-icons/dist/icons/log-in.svg";
 
 const Container = tw(ContainerBase)`min-h-screen bg-orange-400 text-white font-medium flex justify-center -m-8`;
 const Content = tw.div`max-w-screen-xl m-0 sm:mx-20 sm:my-16 bg-white text-gray-900 shadow sm:rounded-lg flex justify-center flex-1`;
-const MainContainer = tw.div`lg:w-1/2 xl:w-5/12 p-6 sm:p-12`;
+const MainContainer = tw.div`lg:w-1/2 xl:w-5/12  p-6 sm:p-12`;
 const LogoLink = tw.a``;
 const LogoImage = tw.img`w-40 mx-auto`;
-const MainContent = tw.div`mt-12 flex flex-col items-center`;
+const MainContent = tw.div`mt-8 flex flex-col items-center`;
 const Heading = tw.h1`text-2xl xl:text-3xl -mt-10 font-extrabold`;
 const FormContainer = tw.div`w-full flex-1 mt-8`;
-
 
 
 
@@ -36,19 +35,19 @@ const SubmitButton = styled.button`
 const IllustrationContainer = tw.div`sm:rounded-r-lg flex-1 bg-orange-100 text-center hidden lg:flex justify-center`;
 const IllustrationImage = styled.div`
   ${props => `background-image: url("${props.imageSrc}");`}
-  ${tw`m-12 xl:m-16 w-full max-w-lg bg-contain bg-center bg-no-repeat`}
+  ${tw`m-12 xl:m-16 w-full max-w-sm bg-contain bg-center bg-no-repeat`}
 `;
 
-export default ({
+const  Connexion =  ({
                     logoLinkUrl = "#",
                     illustrationImageSrc = illustration,
-                    headingText = "Inscription",
+                    headingText = "Connexion",
 
-                    submitButtonText = "Inscription",
-                    SubmitButtonIcon = SignUpIcon,
-                    tosUrl = "#",
-                    privacyPolicyUrl = "#",
-                    signInUrl = "#"
+                    submitButtonText = "Connexion",
+                    SubmitButtonIcon = LoginIcon,
+                    forgotPasswordUrl = "#",
+                    signupUrl = "#",
+
                 }) => (
     <AnimationRevealPage>
         <Container>
@@ -61,37 +60,26 @@ export default ({
                         <Heading>{headingText}</Heading>
                         <FormContainer>
 
+
                             <Form>
-                                <Input type="text" placeholder="Prénom" />
-                                <Input type="text" placeholder="Nom" />
-                                <Input type="text" placeholder="Pseudo" />
                                 <Input type="email" placeholder="Email" />
-                                <Input type="date" placeholder="Date de naissance" />
-                                <Input type="email" placeholder="Ville" />
-                                <Input type="text" placeholder="Numéro de téléphone" />
                                 <Input type="password" placeholder="Mot de passe" />
                                 <SubmitButton type="submit">
                                     <SubmitButtonIcon className="icon" />
                                     <span className="text">{submitButtonText}</span>
                                 </SubmitButton>
-                                <p tw="mt-6 text-xs text-gray-600 text-center">
-                                    J'accepte de respecter les {" "}
-                                    <a href={tosUrl} tw="border-b border-gray-500 border-dotted">
-                                        Conditions d'utilisations
-                                    </a>{" "}
-                                    et sa{" "}
-                                    <a href={privacyPolicyUrl} tw="border-b border-gray-500 border-dotted">
-                                        Politique de confidentialité
-                                    </a>
-                                </p>
-
-                                <p tw="mt-8 text-sm text-gray-600 text-center">
-                                    Vous avez déjà un compte ?{" "}
-                                    <a href={signInUrl} tw="border-b border-gray-500 border-dotted">
-                                        Connexion
-                                    </a>
-                                </p>
                             </Form>
+                            <p tw="mt-6 text-xs text-gray-600 text-center">
+                                <a href={forgotPasswordUrl} tw="border-b border-gray-500 border-dotted">
+                                    Mot de passe oubliés ?
+                                </a>
+                            </p>
+                            <p tw="mt-8 text-sm text-gray-600 text-center">
+                                Vous n'avez pas de compte ?{" "}
+                                <a href="#" tw="border-b border-gray-500 border-dotted">
+                                    <Link to ="/inscription">Inscription</Link>
+                                </a>
+                            </p>
                         </FormContainer>
                     </MainContent>
                 </MainContainer>
@@ -102,3 +90,4 @@ export default ({
         </Container>
     </AnimationRevealPage>
 );
+export default Connexion

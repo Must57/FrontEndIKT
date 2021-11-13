@@ -4,11 +4,12 @@ import tw from "twin.macro";
 import styled from "styled-components";
 import { SectionHeading } from "components/misc/Headings";
 import { PrimaryButton as PrimaryButtonBase } from "components/misc/Buttons";
-import { ReactComponent as PriceIcon } from "feather-icons/dist/icons/euro.svg";
+//import { ReactComponent as PriceIcon } from "feather-icons/dist/icons/euro.svg";
 import { ReactComponent as LocationIcon } from "feather-icons/dist/icons/map-pin.svg";
 import { ReactComponent as StarIcon } from "feather-icons/dist/icons/star.svg";
 import { ReactComponent as ChevronLeftIcon } from "feather-icons/dist/icons/chevron-left.svg";
 import { ReactComponent as ChevronRightIcon } from "feather-icons/dist/icons/chevron-right.svg";
+import { ReactComponent as TimeIcon } from "feather-icons/dist/icons/calendar.svg";
 
 const Container = tw.div`relative`;
 const Content = tw.div`max-w-screen-xl mx-auto py-16 lg:py-20`;
@@ -154,8 +155,8 @@ export default () => {
                                         <Text>{card.locationText}</Text>
                                     </IconWithText>
                                     <IconWithText>
-                                        <IconContainer>
-                                            <PriceIcon />
+                                    <IconContainer>
+                                            <TimeIcon />
                                         </IconContainer>
                                         <Text>{card.pricingText}</Text>
                                     </IconWithText>

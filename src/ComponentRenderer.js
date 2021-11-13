@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom';
 import AnimationRevealPage from "helpers/AnimationRevealPage.js"
 
 
-import SearchPage from "demos/SearchPage.js";
-import ProfilPage from "demos/ProfilPage.js";
-import Inscription from "demos/Inscription.js";
-import Connexion from "demos/Connexion.js";
-import PreferencesInscription from "demos/PreferencesInscription.js";
-import Accueil from "demos/Accueil.js";
+import SearchPage from "pages/SearchPage.js";
+import ProfilPage from "pages/ProfilPage.js";
+import Inscription from "pages/Inscription.js";
+import Connexion from "pages/Connexion.js";
+import PreferencesInscription from "pages/PreferencesInscription.js";
+import Accueil from "pages/Accueil.js";
 
 import SliderCards from "components/cards/ThreeColSlider.js";
 

@@ -8,6 +8,7 @@ import {SectionDescription} from "components/misc/Typography";
 import { ReactComponent as TwitterIcon} from "images/twitter-icon.svg";
 import { ReactComponent as LinkedinIcon} from "images/linkedin-icon.svg";
 import { ReactComponent as GithubIcon } from "images/github-icon.svg";
+import { ReactComponent as TimeIcon } from "feather-icons/dist/icons/calendar.svg";
 
 const HeadingContainer = tw.div``
 const Heading = tw(SectionHeading)``

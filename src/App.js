@@ -28,10 +28,13 @@ import { css } from "styled-components/macro"; //eslint-disable-line
 
 
 import ComponentRenderer from "ComponentRenderer.js";
-import Accueil from "demos/Accueil.js";
+import Accueil from "pages/Accueil";
+import Connexion from "pages/Connexion";
 
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Inscription from "pages/Inscription";
 
 export default function App() {
   // If you want to disable the animation just use the disabled `prop` like below on your page's component
@@ -39,20 +42,14 @@ export default function App() {
 
 
   return (
-    <Router>
-      <Switch>
-        <Route path="/components/:type/:subtype/:name">
-          <ComponentRenderer />
-        </Route>
-        <Route path="/components/:type/:name">
-          <ComponentRenderer />
-        </Route>
+    <BrowserRouter>
+    <Routes>
+    <Route path="connexion" element={<Connexion />} />
+    <Route path="inscription" element={<Inscription />} />
+      <Route path="/" element={<Accueil />} />
 
-        <Route path="/">
-          <Accueil />
-        </Route>
-      </Switch>
-    </Router>
+    </Routes>
+  </BrowserRouter>
   );
 }
 

@@ -2,7 +2,7 @@ import React from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 import { css } from "styled-components/macro"; //eslint-disable-line
-
+import {Link} from 'react-router-dom'
 import Header, { NavLink, NavLinks, PrimaryLink, LogoLink, NavToggle, DesktopNavLinks } from "../headers/light.js";
 import ResponsiveVideoEmbed from "../../helpers/ResponsiveVideoEmbed.js";
 import { ReactComponent as LocationIcon } from "feather-icons/dist/icons/map-pin.svg";
@@ -95,11 +95,11 @@ export default () => {
                     <AccueilIcon/>
                 </IconContainer3>
             </NavLink>
-            <NavLink href="#">
-                <IconContainer3>
+            <Link to="/connexion"> <NavLink href="#">
+               <IconContainer3>
                     <MonProfilIcon/>
                 </IconContainer3>
-            </NavLink>
+            </NavLink></Link>
             <NavLink href="#">
                 <IconContainer2>
                     <MesFavorisIcon/>
