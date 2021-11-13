@@ -1,6 +1,8 @@
 # FrontEndIKT
 
-Le FrontEnd d'I Know Travel est composé des pages qui constitueront le site internet. La page gérant les préférences seront améliorées. 
+Le FrontEnd d'I Know Travel. 
+
+La page gérant les préférences sera améliorées. 
 State Management sera aussi implementée.
 
 
