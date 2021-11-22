@@ -24,7 +24,7 @@ import MeteoSlider from "../components/sliders/MeteoSlider";
 const Content = tw.div`max-w-screen-xl m-0 sm:mx-20 sm:my-16 bg-white text-gray-900  sm:rounded-lg flex justify-center flex-1`;
 const MainContainer = tw.div`lg:w-1/2 xl:w-5/12 p-6 sm:p-12`;
 const MainContent = tw.div`mt-0 flex flex-col items-center`;
-const Title = tw.h5`text-2xl font-bold`;
+const Title = tw.h5`text-2xl font-bold text-center`;
 const Form = tw.form`mx-auto max-w-xs mt-0`;
 const Input = tw.input`w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 first:mt-0`;
 const SubmitButton = styled.button`
