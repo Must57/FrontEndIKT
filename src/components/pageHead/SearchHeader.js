@@ -52,7 +52,8 @@ export default ({
                     {description && <Description>{description}</Description>}
 
                     <IconContainer>
-                        <FavorisIcon/>
+                        
+                            <FavorisIcon/>
 
                     </IconContainer>
                 </HeadingContainer>

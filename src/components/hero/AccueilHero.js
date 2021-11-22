@@ -11,6 +11,7 @@ import { ReactComponent as AccueilIcon } from "feather-icons/dist/icons/home.svg
 import { ReactComponent as MonProfilIcon } from "feather-icons/dist/icons/user.svg";
 import { ReactComponent as MesFavorisIcon } from "feather-icons/dist/icons/heart.svg";
 
+
 const StyledHeader = styled(Header)`
   ${tw`pt-8 max-w-none`}
   ${DesktopNavLinks} ${NavLink}, ${LogoLink} {
@@ -22,7 +23,7 @@ const StyledHeader = styled(Header)`
 `;
 const Container = styled.div`
   ${tw`relative -mx-12 -mt-12 bg-center bg-cover`}
-  background-image: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1173&q=80");
+  background-image: url("https://images.unsplash.com/photo-1516659336300-f95a2a0c5d74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80");
 `;
 
 const OpacityOverlay = tw.div`z-10 absolute inset-0 bg-orange-400 opacity-25`;
@@ -90,26 +91,35 @@ const IconContainer3 = styled.div`
 export default () => {
     const navLinks = [
         <NavLinks key={1}>
-            <NavLink href="#">
-                <IconContainer3>
-                    <AccueilIcon/>
-                </IconContainer3>
-            </NavLink>
-            <Link to="/connexion"> <NavLink href="#">
-               <IconContainer3>
-                    <MonProfilIcon/>
-                </IconContainer3>
-            </NavLink></Link>
-            <NavLink href="#">
-                <IconContainer2>
-                    <MesFavorisIcon/>
-                </IconContainer2>
-            </NavLink>
+            <Link to="/">
+                <NavLink href="#">
+                    <IconContainer3>
+                        <AccueilIcon/>
+                    </IconContainer3>
+                </NavLink>
+            </Link>
+            <Link to="/monProfil">
+                <NavLink href="#">
+                    <IconContainer3>
+                        <MonProfilIcon/>
+                    </IconContainer3>
+                </NavLink>
+            </Link>
+            <Link to="/mesFavoris">
+                <NavLink href="#">
+                    <IconContainer2>
+                        <MesFavorisIcon/>
+                    </IconContainer2>
+                </NavLink>
+            </Link>
         </NavLinks>,
         <NavLinks key={2}>
             <Actions>
                 <input type="text" placeholder="Saisir une ville" />
-                <button>Rechercher</button>
+                <Link to="/SearchPage">
+                    <button>Rechercher</button>
+                </Link>
+
             </Actions>
         </NavLinks>,
         <NavLinks key={3}>
@@ -132,7 +142,7 @@ export default () => {
                         <Heading>
                             <span>Rendez-vous à</span>
                             <br />
-                            <SlantedBackground>la plage</SlantedBackground>
+                            <SlantedBackground>la montagne</SlantedBackground>
                         </Heading>
                         <PrimaryAction>Découvrez votre destination</PrimaryAction>
                     </LeftColumn>

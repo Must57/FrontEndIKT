@@ -10,9 +10,8 @@ import Connexion from "pages/Connexion.js";
 import PreferencesInscription from "pages/PreferencesInscription.js";
 import Accueil from "pages/Accueil.js";
 
-import SliderCards from "components/cards/ThreeColSlider.js";
+import HotelTrendCard from "components/cards/HotelTrendSlider.js";
 
-import TwoColContactUsForm from "components/forms/TwoColContactUsWithIllustration.js";
 
 
 export const components = {

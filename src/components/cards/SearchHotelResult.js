@@ -6,6 +6,7 @@ import { SectionHeading } from "components/misc/Headings";
 import { PrimaryButton as PrimaryButtonBase } from "components/misc/Buttons";
 //import { ReactComponent as PriceIcon } from "feather-icons/dist/icons/euro.svg";
 import { ReactComponent as LocationIcon } from "feather-icons/dist/icons/map-pin.svg";
+import { ReactComponent as PriceIcon } from "images/euro.svg";
 import { ReactComponent as StarIcon } from "feather-icons/dist/icons/star.svg";
 import { ReactComponent as ChevronLeftIcon } from "feather-icons/dist/icons/chevron-left.svg";
 import { ReactComponent as ChevronRightIcon } from "feather-icons/dist/icons/chevron-right.svg";
@@ -156,7 +157,7 @@ export default () => {
                                     </IconWithText>
                                     <IconWithText>
                                     <IconContainer>
-                                            <TimeIcon />
+                                            <PriceIcon />
                                         </IconContainer>
                                         <Text>{card.pricingText}</Text>
                                     </IconWithText>

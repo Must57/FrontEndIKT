@@ -5,11 +5,12 @@ import styled from "styled-components";
 import { SectionHeading } from "components/misc/Headings";
 import { PrimaryButton as PrimaryButtonBase } from "components/misc/Buttons";
 
-import { ReactComponent as TimeIcon } from "feather-icons/dist/icons/calendar.svg";
-import { ReactComponent as PriceIcon } from "images/euro.svg";
-import { ReactComponent as DurationIcon } from "feather-icons/dist/icons/circle.svg";
+import { ReactComponent as LocationIcon } from "feather-icons/dist/icons/map-pin.svg";
+import { ReactComponent as StarIcon } from "feather-icons/dist/icons/star.svg";
 import { ReactComponent as ChevronLeftIcon } from "feather-icons/dist/icons/chevron-left.svg";
 import { ReactComponent as ChevronRightIcon } from "feather-icons/dist/icons/chevron-right.svg";
+import { ReactComponent as TimeIcon } from "feather-icons/dist/icons/clock.svg";
+import { ReactComponent as PriceIcon } from "images/euro.svg";
 
 const Container = tw.div`relative`;
 const Content = tw.div`max-w-screen-xl mx-auto py-16 lg:py-20`;
@@ -36,7 +37,10 @@ const CardSlider = styled(Slider)`
   }
 `;
 const Card = tw.div`h-full flex! flex-col sm:border max-w-sm sm:rounded-tl-4xl sm:rounded-br-5xl relative focus:outline-none`;
-
+const CardImage = styled.div(props => [
+    `background-image: url("${props.imageSrc}");`,
+    tw`w-full h-56 sm:h-64 bg-cover bg-center rounded sm:rounded-none sm:rounded-tl-4xl`
+]);
 
 const TextInfo = tw.div`py-6 sm:px-10 sm:py-6`;
 const TitleReviewContainer = tw.div`flex flex-col sm:flex-row sm:justify-between sm:items-center`;
@@ -45,7 +49,7 @@ const Title = tw.h5`text-2xl font-bold`;
 const RatingsInfo = styled.div`
   ${tw`flex items-center sm:ml-4 mt-2 sm:mt-0`}
   svg {
-    ${tw`w-6 h-6 text-orange-400 fill-current`}
+    ${tw`w-6 h-6 text-yellow-500 fill-current`}
   }
 `;
 const Rating = tw.span`ml-2 font-bold`;
@@ -89,32 +93,36 @@ export default () => {
     /* Change this according to your needs */
     const cards = [
         {
-            title: "Barcelone-Paris",
+            imageSrc: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80",
+            title: "Blanc Palace",
             description: "Lorem ipsum dolor sit amet, consectur dolori adipiscing elit, sed do eiusmod tempor nova incididunt ut labore et dolore magna aliqua.",
-            locationText: "25/10/2021",
-            pricingText: "89/Aller",
-            rating: "1" + " h " + "41",
+            locationText: "Bordeaux, France",
+            pricingText: "39/Jours",
+            rating: "4.8",
         },
         {
-            title: "Madrid-Nice",
+            imageSrc: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80",
+            title: "Infinity Place",
             description: "Lorem ipsum dolor sit amet, consectur dolori adipiscing elit, sed do eiusmod tempor nova incididunt ut labore et dolore magna aliqua.",
-            locationText: "20/10/2021 25/10/2021",
-            pricingText: "180   Aller-Retour",
-            rating: "0" + " h " + "41",
+            locationText: "Cannes, France",
+            pricingText: "85/Jours",
+            rating: "4.9",
         },
         {
-            title: "Berlin-Paris",
+            imageSrc: "https://images.unsplash.com/photo-1549294413-26f195200c16?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80",
+            title: "Hôtel Dorava",
             description: "Lorem ipsum dolor sit amet, consectur dolori adipiscing elit, sed do eiusmod tempor nova incididunt ut labore et dolore magna aliqua.",
-            locationText: "01/11/2021 12/11/2021",
-            pricingText: "185,99    Aller-Retour",
-            rating: "1" + " h " + "25",
+            locationText: "Nice, France",
+            pricingText: "49/Jours",
+            rating: "5.0",
         },
         {
-            title: "Londres-Paris",
+            imageSrc: "https://images.unsplash.com/photo-1571770095004-6b61b1cf308a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80",
+            title: "Ciela Hôtel",
             description: "Lorem ipsum dolor sit amet, consectur dolori adipiscing elit, sed do eiusmod tempor nova incididunt ut labore et dolore magna aliqua.",
-            locationText: "12/11/2021 29/11/2021",
-            pricingText: "156,80    Aller-Retour",
-            rating: "0" + " h " + "55",
+            locationText: "Cannes, France",
+            pricingText: "66/Jours",
+            rating: "4.5",
         },
     ]
 
@@ -122,42 +130,47 @@ export default () => {
         <Container>
             <Content>
                 <HeadingWithControl>
-                    <Heading>Billets d'avion</Heading>
+                    <Heading>Hôtels populaires</Heading>
                     <Controls>
                         <PrevButton onClick={sliderRef?.slickPrev}><ChevronLeftIcon/></PrevButton>
                         <NextButton onClick={sliderRef?.slickNext}><ChevronRightIcon/></NextButton>
                     </Controls>
                 </HeadingWithControl>
                 <CardSlider ref={setSliderRef} {...sliderSettings}>
-                    {cards.map((card, index) => (
-                        <Card key={index}>
-                            <TextInfo>
-                                <TitleReviewContainer>
-                                    <Title>{card.title}</Title>
-                                    <RatingsInfo>
-                                        <DurationIcon />
-                                        <Rating>{card.rating}</Rating>
-                                    </RatingsInfo>
-                                </TitleReviewContainer>
-                                <SecondaryInfoContainer>
-                                    <IconWithText>
-                                        <IconContainer>
-                                            <TimeIcon />
-                                        </IconContainer>
-                                        <Text>{card.locationText}</Text>
-                                    </IconWithText>
-                                    <IconWithText>
-                                    <IconContainer>
-                                        <PriceIcon />
-                                    </IconContainer>
-                                        <Text>{card.pricingText}</Text>
-                                    </IconWithText>
-                                </SecondaryInfoContainer>
-                                <Description>{card.description}</Description>
-                            </TextInfo>
-                            <PrimaryButton>Voir le vol</PrimaryButton>
-                        </Card>
-                    ))}
+                    {cards.map((card, index) => {
+
+                        console.log(card)
+                        return (
+                            <Card key={index}>
+                                <CardImage imageSrc={card.imageSrc} />
+                                <TextInfo>
+
+                                    <TitleReviewContainer>
+                                        <Title>{card.title}</Title>
+                                        <RatingsInfo>
+                                            <StarIcon />
+                                            <Rating>{card.rating}</Rating>
+                                        </RatingsInfo>
+                                    </TitleReviewContainer>
+                                    <SecondaryInfoContainer>
+                                        <IconWithText>
+                                            <IconContainer>
+                                                <LocationIcon />
+                                            </IconContainer>
+                                            <Text>{card.locationText}</Text>
+                                        </IconWithText>
+                                        <IconWithText>
+                                            <IconContainer>
+                                                <PriceIcon />
+                                            </IconContainer>
+                                            <Text>{card.pricingText}</Text>
+                                        </IconWithText>
+                                    </SecondaryInfoContainer>
+                                    <Description>{card.description}</Description>
+                                </TextInfo>
+                                <PrimaryButton>Réservez Maintenant</PrimaryButton>
+                            </Card>)
+                    })}
                 </CardSlider>
             </Content>
         </Container>

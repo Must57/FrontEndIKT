@@ -9,6 +9,7 @@ import { ReactComponent as LocationIcon } from "feather-icons/dist/icons/map-pin
 import { ReactComponent as AccueilIcon } from "feather-icons/dist/icons/home.svg";
 import { ReactComponent as MonProfilIcon } from "feather-icons/dist/icons/user.svg";
 import { ReactComponent as MesFavorisIcon } from "feather-icons/dist/icons/heart.svg";
+import {Link} from "react-router-dom";
 
 const StyledHeader = styled(Header)`
   ${tw`pt-8 max-w-none`}
@@ -64,16 +65,20 @@ const IconContainer3 = styled.div`
 export default () => {
     const navLinks = [
         <NavLinks key={1}>
-            <NavLink href="#">
-                <IconContainer3>
-                    <AccueilIcon/>
-                </IconContainer3>
-            </NavLink>
-            <NavLink href="#">
-                <IconContainer3>
-                    <MonProfilIcon/>
-                </IconContainer3>
-            </NavLink>
+            <Link to="/">
+                <NavLink href="#">
+                    <IconContainer3>
+                        <AccueilIcon/>
+                    </IconContainer3>
+                </NavLink>
+            </Link>
+            <Link to="/monProfil">
+                <NavLink href="#">
+                    <IconContainer3>
+                        <MonProfilIcon/>
+                    </IconContainer3>
+                </NavLink>
+            </Link>
             <NavLink href="#">
                 <IconContainer2>
                     <MesFavorisIcon/>

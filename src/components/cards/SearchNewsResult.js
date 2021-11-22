@@ -5,11 +5,9 @@ import styled from "styled-components";
 import { SectionHeading } from "components/misc/Headings";
 import { PrimaryButton as PrimaryButtonBase } from "components/misc/Buttons";
 
-import { ReactComponent as LocationIcon } from "feather-icons/dist/icons/map-pin.svg";
-import { ReactComponent as StarIcon } from "feather-icons/dist/icons/star.svg";
+import { ReactComponent as LocationIcon } from "feather-icons/dist/icons/clipboard.svg";
 import { ReactComponent as ChevronLeftIcon } from "feather-icons/dist/icons/chevron-left.svg";
 import { ReactComponent as ChevronRightIcon } from "feather-icons/dist/icons/chevron-right.svg";
-import { ReactComponent as TimeIcon } from "feather-icons/dist/icons/calendar.svg";
 
 const Container = tw.div`relative`;
 const Content = tw.div`max-w-screen-xl mx-auto py-16 lg:py-20`;
@@ -53,7 +51,7 @@ const RatingsInfo = styled.div`
 `;
 const Rating = tw.span`ml-2 font-bold`;
 
-const Description = tw.p`text-sm leading-loose mt-2 sm:mt-4`;
+const Description = tw.p`text-xs leading-loose mt-2 sm:mt-4`;
 
 const SecondaryInfoContainer = tw.div`flex flex-col sm:flex-row mt-2 sm:mt-4`;
 const IconWithText = tw.div`flex items-center mr-6 my-2 sm:my-0`;
@@ -92,36 +90,32 @@ export default () => {
     /* Change this according to your needs */
     const cards = [
         {
-            imageSrc: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80",
+            imageSrc: "https://fyooyzbm.filerobot.com/v7/protec/DATA_ART_8148967-zKMj4YrO.jpg?vh=873c24&ci_seal=b9045ba6dd&w=1280&h=746&gravity=auto&func=crop",
             title: "En raison d'une forte houle, baignade déconseillée à Nice, Monaco et Menton ce dimanche",
-            description: "Lorem ipsum dolor sit amet, consectur dolori adipiscing elit, sed do eiusmod tempor nova incididunt ut labore et dolore magna aliqua.",
-            locationText: "Nice Matin",
-            pricingText: "39/Jours",
-            rating: "4.8",
+            description: "En raison du forte houle à venir dans l'après-midi ce dimanche 19 septembre, la Préfecture conseille d'éviter la baignade sur le littoral niçois ainsi qu'à Monaco et Menton...",
+            newsSoucre: "Nice Matin",
+
         },
         {
-            imageSrc: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80",
-            title: "Infinity Place",
-            description: "Lorem ipsum dolor sit amet, consectur dolori adipiscing elit, sed do eiusmod tempor nova incididunt ut labore et dolore magna aliqua.",
-            locationText: "Nice Matin",
-            pricingText: "85/Jours",
-            rating: 4.9,
+            imageSrc: "https://fyooyzbm.filerobot.com/v7/protec/DATA_ART_8148967-zKMj4YrO.jpg?vh=873c24&ci_seal=b9045ba6dd&w=1280&h=746&gravity=auto&func=crop",
+            title: "En raison d'une forte houle, baignade déconseillée à Nice, Monaco et Menton ce dimanche",
+            description: "En raison du forte houle à venir dans l'après-midi ce dimanche 19 septembre, la Préfecture conseille d'éviter la baignade sur le littoral niçois ainsi qu'à Monaco et Menton...",
+            newsSoucre: "Nice Matin",
+
         },
         {
-            imageSrc: "https://images.unsplash.com/photo-1549294413-26f195200c16?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80",
-            title: "Hôtel Dorava",
-            description: "Lorem ipsum dolor sit amet, consectur dolori adipiscing elit, sed do eiusmod tempor nova incididunt ut labore et dolore magna aliqua.",
-            locationText: "Nice Matin",
-            pricingText: "49/Jours",
-            rating: "5.0",
+            imageSrc: "https://fyooyzbm.filerobot.com/v7/protec/DATA_ART_8148967-zKMj4YrO.jpg?vh=873c24&ci_seal=b9045ba6dd&w=1280&h=746&gravity=auto&func=crop",
+            title: "En raison d'une forte houle, baignade déconseillée à Nice, Monaco et Menton ce dimanche",
+            description: "En raison du forte houle à venir dans l'après-midi ce dimanche 19 septembre, la Préfecture conseille d'éviter la baignade sur le littoral niçois ainsi qu'à Monaco et Menton...",
+            newsSoucre: "Nice Matin",
+
         },
         {
-            imageSrc: "https://images.unsplash.com/photo-1571770095004-6b61b1cf308a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80",
-            title: "Ciela Hôtel",
-            description: "Lorem ipsum dolor sit amet, consectur dolori adipiscing elit, sed do eiusmod tempor nova incididunt ut labore et dolore magna aliqua.",
-            locationText: "Nice Matin",
-            pricingText: "66/Jours",
-            rating: 4.5,
+            imageSrc: "https://fyooyzbm.filerobot.com/v7/protec/DATA_ART_8148967-zKMj4YrO.jpg?vh=873c24&ci_seal=b9045ba6dd&w=1280&h=746&gravity=auto&func=crop",
+            title: "En raison d'une forte houle, baignade déconseillée à Nice, Monaco et Menton ce dimanche",
+            description: "En raison du forte houle à venir dans l'après-midi ce dimanche 19 septembre, la Préfecture conseille d'éviter la baignade sur le littoral niçois ainsi qu'à Monaco et Menton...",
+            newsSoucre: "Nice Matin",
+
         },
     ]
 
@@ -142,26 +136,19 @@ export default () => {
                             <TextInfo>
                                 <TitleReviewContainer>
                                     <Title>{card.title}</Title>
-                                    <RatingsInfo>
-                                        <StarIcon />
-                                        <Rating>{card.rating}</Rating>
-                                    </RatingsInfo>
+
                                 </TitleReviewContainer>
+                                <Description>{card.description}</Description>
                                 <SecondaryInfoContainer>
                                     <IconWithText>
                                         <IconContainer>
                                             <LocationIcon />
                                         </IconContainer>
-                                        <Text>{card.locationText}</Text>
+                                        <Text>{card.newsSoucre}</Text>
                                     </IconWithText>
-                                    <IconWithText>
-                                    <IconContainer>
-                                            <TimeIcon />
-                                        </IconContainer>
-                                        <Text>{card.pricingText}</Text>
-                                    </IconWithText>
+
                                 </SecondaryInfoContainer>
-                                <Description>{card.description}</Description>
+
                             </TextInfo>
                             <PrimaryButton>Voir</PrimaryButton>
                         </Card>

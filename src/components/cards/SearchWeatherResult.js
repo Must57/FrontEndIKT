@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, {useState, Component, useEffect} from "react";
 import Slider from "react-slick";
 import tw from "twin.macro";
 import styled from "styled-components";
 import { SectionHeading } from "components/misc/Headings";
 import { PrimaryButton as PrimaryButtonBase } from "components/misc/Buttons";
 // import { ReactComponent as PriceIcon } from "feather-icons/dist/icons/euro.svg";
-import { ReactComponent as TimeIcon } from "feather-icons/dist/icons/calendar.svg";
+import { ReactComponent as MaxTempIcon } from "feather-icons/dist/icons/thermometer.svg"
+import { ReactComponent as TempIcon } from "feather-icons/dist/icons/thermometer.svg";
 import { ReactComponent as DurationIcon } from "feather-icons/dist/icons/circle.svg";
 import { ReactComponent as ChevronLeftIcon } from "feather-icons/dist/icons/chevron-left.svg";
 import { ReactComponent as ChevronRightIcon } from "feather-icons/dist/icons/chevron-right.svg";
+
+import axios from 'axios';
+
+
 
 const Container = tw.div`relative`;
 const Content = tw.div`max-w-screen-xl mx-auto py-16 lg:py-20`;
@@ -35,7 +40,10 @@ const CardSlider = styled(Slider)`
   }
 `;
 const Card = tw.div`h-full flex! flex-col sm:border max-w-sm sm:rounded-tl-4xl sm:rounded-br-5xl relative focus:outline-none`;
-
+const CardImage = styled.div(props => [
+    `background-image: url("${props.imageSrc}");`,
+    tw`w-full h-56 sm:h-64 bg-cover bg-center rounded sm:rounded-none sm:rounded-tl-4xl`
+]);
 
 const TextInfo = tw.div`py-6 sm:px-10 sm:py-6`;
 const TitleReviewContainer = tw.div`flex flex-col sm:flex-row sm:justify-between sm:items-center`;
@@ -62,12 +70,77 @@ const IconContainer = styled.div`
 const Text = tw.div`ml-2 text-sm font-semibold text-gray-800`;
 
 const PrimaryButton = tw(PrimaryButtonBase)`mt-auto sm:text-lg rounded-none w-full rounded sm:rounded-none sm:rounded-br-4xl py-3 sm:py-6`;
+
 export default () => {
+    const [loading, setLoading] = useState(true)
+    //Change this according to your needs
+    const [weatherData, setWeatherData] = useState([
+        {
+            city: "Nice",
+            imageSrc: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80",
+            temp: "21" + "°C",
+            tempMax: "25" + "°C Max",
+            date: "20/11/2021",
+        },
+        {
+            city: "Nice",
+            imageSrc: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80",
+            temp: "19" + "°C",
+            tempMax: "22" + "°C Max",
+            date: "21/11/2021",
+        },
+        {
+            city: "Nice",
+            imageSrc: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80",
+            temp: "18" + "°C",
+            tempMax: "20" + "°C Max",
+            date: "22/11/2021",
+        },
+        {
+            city: "Nice",
+            imageSrc: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80",
+            temp: "16" + "°C",
+            tempMax: "18" + "°C Max",
+            date: "23/11/2021",
+        },
+        {
+            city: "Nice",
+            imageSrc: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80",
+            temp: "16" + "°C",
+            tempMax: "18" + "°C Max",
+            date: "23/11/2021",
+        },
+    ])
+
     // useState is used instead of useRef below because we want to re-render when sliderRef becomes available (not null)
     const [sliderRef, setSliderRef] = useState(null);
+    useEffect(
+        ()=> {
+
+            axios.get("http://localhost:3037/nice")
+                .then(response => {
+
+                        setLoading(false)
+                    /**
+                     * s
+                     */
+                    console.log(response);
+                    const newListData = []
+                    let i = 0
+                    for (i=0; i < response.data.meteo.list.length; i++) {
+                        let resp = response.data.meteo.list[i]
+                        console.log(response.data)
+                        newListData.push(resp)
+                    }
+                    console.log(newListData[0])
+                    setWeatherData(newListData)
+                })
+        },[]
+    )
+
     const sliderSettings = {
         arrows: false,
-        slidesToShow: 3,
+        slidesToShow: 4,
         responsive: [
             {
                 breakpoint: 1280,
@@ -85,39 +158,10 @@ export default () => {
         ]
     };
 
-    /* Change this according to your needs */
-    const cards = [
-        {
-            title: "Barcelone-Paris",
-            description: "Lorem ipsum dolor sit amet, consectur dolori adipiscing elit, sed do eiusmod tempor nova incididunt ut labore et dolore magna aliqua.",
-            locationText: "25/10/2021",
-            pricingText: "89/Aller",
-            rating: "1" + " h " + "41",
-        },
-        {
-            title: "Madrid-Nice",
-            description: "Lorem ipsum dolor sit amet, consectur dolori adipiscing elit, sed do eiusmod tempor nova incididunt ut labore et dolore magna aliqua.",
-            locationText: "20/10/2021 25/10/2021",
-            pricingText: "180   Aller-Retour",
-            rating: "0" + " h " + "41",
-        },
-        {
-            title: "Berlin-Paris",
-            description: "Lorem ipsum dolor sit amet, consectur dolori adipiscing elit, sed do eiusmod tempor nova incididunt ut labore et dolore magna aliqua.",
-            locationText: "01/11/2021 12/11/2021",
-            pricingText: "185,99    Aller-Retour",
-            rating: "1" + " h " + "25",
-        },
-        {
-            title: "Londres-Paris",
-            description: "Lorem ipsum dolor sit amet, consectur dolori adipiscing elit, sed do eiusmod tempor nova incididunt ut labore et dolore magna aliqua.",
-            locationText: "12/11/2021 29/11/2021",
-            pricingText: "156,80    Aller-Retour",
-            rating: "0" + " h " + "55",
-        },
-    ]
+
 
     return (
+
         <Container>
             <Content>
                 <HeadingWithControl>
@@ -127,38 +171,41 @@ export default () => {
                         <NextButton onClick={sliderRef?.slickNext}><ChevronRightIcon/></NextButton>
                     </Controls>
                 </HeadingWithControl>
-                <CardSlider ref={setSliderRef} {...sliderSettings}>
-                    {cards.map((card, index) => (
+                {loading && (<div>Chargement des données Météo</div>)}
+                {!loading &&(  <CardSlider ref={setSliderRef} {...sliderSettings}>
+                    {weatherData.map((wh, index) => (
                         <Card key={index}>
+                            <CardImage /*imageSrc={*//*wh.imageSrc}*/ />
                             <TextInfo>
                                 <TitleReviewContainer>
-                                    <Title>{card.title}</Title>
+                                    <Title>{wh.city !== undefined ? wh.city.name : ''}</Title>
                                     <RatingsInfo>
                                         <DurationIcon />
-                                        <Rating>{card.rating}</Rating>
+                                        <Rating>{/*card.date*/}</Rating>
                                     </RatingsInfo>
                                 </TitleReviewContainer>
                                 <SecondaryInfoContainer>
                                     <IconWithText>
                                         <IconContainer>
-                                            <TimeIcon />
+                                            <TempIcon />
                                         </IconContainer>
-                                        <Text>{card.locationText}</Text>
+                                        <Text>{wh.main !== undefined ? wh.main.temp : ''}</Text>
                                     </IconWithText>
                                     <IconWithText>
                                     <IconContainer>
-                                            <TimeIcon />
+                                            <MaxTempIcon />
                                         </IconContainer>
-                                        <Text>{card.pricingText}</Text>
+                                        <Text>{wh.main !== undefined ? wh.main.temp_max : ''}</Text>
                                     </IconWithText>
                                 </SecondaryInfoContainer>
-                                <Description>{card.description}</Description>
+                                <Description>{wh.weather !== undefined ? wh.weather[0] !== undefined ? wh.weather[0].description : '' : ''}</Description>
                             </TextInfo>
                             <PrimaryButton>Voir</PrimaryButton>
                         </Card>
                     ))}
-                </CardSlider>
+                </CardSlider>)}
             </Content>
         </Container>
     );
 };
+

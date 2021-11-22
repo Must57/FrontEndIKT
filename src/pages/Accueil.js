@@ -8,7 +8,7 @@ import Hero from "components/hero/AccueilHero.js";
 import Testimonial from "components/testimonials/TwoColumnWithImageAndProfilePictureReview.js";
 import ContactUsForm from "components/forms/TwoColContactUsWithIllustration.js";
 import Footer from "components/footers/FooterIKT.js";
-import SliderCard from "components/cards/ThreeColSlider";
+import HotelTrendSlider from "components/cards/HotelTrendSlider";
 import FlightTrendSlider from "components/cards/FlightTrendSlider";
 import TrainPromotionSlider from "components/cards/TrainPromotionSlider";
 import customerSupportIllustrationSrc from "images/customer-support-illustration.svg";
@@ -16,7 +16,8 @@ import customerSupportIllustrationSrc from "images/customer-support-illustration
 export default () => (
     <AnimationRevealPage>
         <Hero />
-        <SliderCard />
+
+        <HotelTrendSlider />
         <FlightTrendSlider />
         <TrainPromotionSlider />
         <Testimonial

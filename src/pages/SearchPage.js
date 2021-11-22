@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import tw from "twin.macro"; //eslint-disable-line
 import { css } from "styled-components/macro"; //eslint-disable-line
 import AnimationRevealPage from "helpers/AnimationRevealPage.js";
@@ -15,6 +15,8 @@ import SearchNewsResult from "../components/cards/SearchNewsResult.js";
 import SearchWeatherResult from "../components/cards/SearchWeatherResult.js";
 import SearchAllAboutCityResult from "../components/cards/SearchAllAboutCityResult.js";
 import SearchHeader from "../components/pageHead/SearchHeader.js"
+
+
 
 export default () => (
     <AnimationRevealPage>

@@ -9,6 +9,9 @@ import { ReactComponent as TimeIcon } from "feather-icons/dist/icons/calendar.sv
 import { ReactComponent as DurationIcon } from "feather-icons/dist/icons/circle.svg";
 import { ReactComponent as ChevronLeftIcon } from "feather-icons/dist/icons/chevron-left.svg";
 import { ReactComponent as ChevronRightIcon } from "feather-icons/dist/icons/chevron-right.svg";
+import { ReactComponent as PriceIcon } from "images/euro.svg";
+
+
 
 const Container = tw.div`relative`;
 const Content = tw.div`max-w-screen-xl mx-auto py-16 lg:py-20`;
@@ -85,6 +88,8 @@ export default () => {
     ]
   };
 
+
+
   /* Change this according to your needs */
   const cards = [
     {
@@ -147,8 +152,8 @@ export default () => {
                   </IconWithText>
                   <IconWithText>
                   <IconContainer>
-                                            <TimeIcon />
-                                        </IconContainer>
+                    <PriceIcon />
+                  </IconContainer>
                     <Text>{card.pricingText}</Text>
                   </IconWithText>
                 </SecondaryInfoContainer>
