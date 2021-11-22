@@ -66,8 +66,7 @@ export default ({
                                 <Input type="date" placeholder="Date de naissance" value="2000-11-21"/>
                                 <Input type="email" placeholder="Ville" value="Metz"/>
                                 <Input type="text" placeholder="Numéro de téléphone" value="0745896341"/>
-                                <Input type="password" placeholder="Mot de passe" value="Maria0245"/>
-
+                           
                                 <SubmitButton type="submit">
                                     <SubmitButtonIcon className="icon" />
                                     <span className="text">{submitButtonText}</span>
@@ -78,6 +77,29 @@ export default ({
                         </MainContent>
             </MainContainer>
             </Content>
+        <Content>
+
+
+            <MainContainer>
+                <MainContent>
+                    <Form>
+                        <p tw="mt-6 text-xs text-gray-600 text-center">
+                            N'oubliez pas d'enregistrer votre nouveau mot de passe
+                        </p>
+
+                        <Input type="password" placeholder="Mot de passe" value="Maria0245"/>
+                        <Input type="password" placeholder="Confirmer votre mot de passe" value="Maria0245"/>
+
+                        <SubmitButton type="submit">
+                            <SubmitButtonIcon className="icon" />
+                            <span className="text">{submitButtonText}</span>
+                        </SubmitButton>
+
+
+                    </Form>
+                </MainContent>
+            </MainContainer>
+        </Content>
         <PreferencesHeader />
         <Content>
             <MainContainer>
