@@ -1,8 +1,10 @@
-import React from "react";
+import React,{useState, useRef, useCallback} from "react";
 import AnimationRevealPage from "helpers/AnimationRevealPage.js";
 import { Container as ContainerBase } from "components/misc/Layouts";
 import tw from "twin.macro";
-import {Link} from "react-router-dom"
+import {ClipLoader} from 'react-spinners'
+import {Link, useNavigate} from "react-router-dom"
+import axios from 'axios'
 import styled from "styled-components";
 import { css } from "styled-components/macro"; //eslint-disable-line
 import illustration from "images/inscriptions.svg";
@@ -10,6 +12,9 @@ import logo from "images/LogoWhite.svg";
 import googleIconImageSrc from "images/google-icon.png";
 import twitterIconImageSrc from "images/twitter-icon.png";
 import { ReactComponent as SignUpIcon } from "feather-icons/dist/icons/user-plus.svg";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { userSelector } from "state/store/userReducer/selector/userSelector";
 
 const Container = tw(ContainerBase)`min-h-screen bg-orange-400 text-white font-medium flex justify-center -m-8`;
 const Content = tw.div`max-w-screen-xl m-0 sm:mx-20 sm:my-16 bg-white text-gray-900 shadow sm:rounded-lg flex justify-center flex-1`;
@@ -50,7 +55,95 @@ export default ({
                     tosUrl = "#",
                     privacyPolicyUrl = "#",
                     signInUrl = "#"
-                }) => (
+                }) => {
+                    const ref = useRef(null)
+                    const userState = useSelector(userSelector)
+                    const navigator = useNavigate()
+                    const [inProcess, setProcess] = useState(false)
+                    const [registerData, setRegisterData] = useState({
+                        birthday: "",
+                        firstname: "",
+                        lastname: "",
+                        email: "",
+                        username: "",
+                        city: "",
+                        password:"",
+                        numberPhone: ""
+                    })
+                    if (userState.isLogged) {
+                        navigator("/")
+                    }
+                    const apiCall = useCallback(async (data) => {
+                        let result = await axios.post('http://localhost:3031/createUser',data)
+                        return result.data
+                    })
+                    const onSubmitInfo = async (e) => {e.preventDefault(); 
+                        console.log(e);
+
+                        setProcess(true)
+                         console.log(ref)
+                       
+                         if (registerData.birthday !== "" 
+                         && registerData.city !== "" 
+                         && registerData.email !== ""
+                         && registerData.firstname !== ""
+                         && registerData.lastname !== ""
+                         && registerData.numberPhone !== ""
+                         && registerData.password !== ""
+                         && registerData.username !== ""
+                         
+                         ) {
+                             
+                           const res =  await apiCall({
+                                birthday: registerData.birthday,
+                                firstname: registerData.firstname,
+                                lastname: registerData.lastname,
+                                email: registerData.email,
+                                username: registerData.username,
+                                city: registerData.city,
+                                password:registerData.password,
+                                numberPhone: registerData.numberPhone
+        
+                            })
+
+                            if (res.error === "exist_username") {
+                                setProcess(false)
+                                toast.error("Pseudonyme existe déjà !")
+                            }
+                            if (res.error==="exist_email"){
+                                setProcess(false)
+                                toast.error("L'adresse email existe déjà !")
+                            }
+
+                            else {
+                                toast.success('Registered !')
+                                navigator("/connexion")
+                                setProcess(false)
+                                setRegisterData({})
+                            }
+                         }else{
+                             setProcess(false)
+                             toast.error('Please fill all fields !')
+                         }
+                
+                    }
+
+                    const onChanged = (e, typeValue) => {
+                        const newValue = e.target.value
+                        switch(typeValue){
+                            case "username": setRegisterData({...registerData,username:newValue}); break;
+                            case "email": setRegisterData({...registerData, email: newValue}); break;
+                            case "firstname": setRegisterData({...registerData, firstname: newValue}); break;
+                            case "lastname": setRegisterData({...registerData,lastname: newValue}); break;
+                            case "numberPhone": setRegisterData({...registerData,numberPhone: newValue}); break;
+                            case "birthday":  setRegisterData({...registerData, birthday: newValue}); break;
+                            case "password": setRegisterData({...registerData, password: newValue}); break;
+                            case "city": setRegisterData({...registerData,city: newValue})
+                            default:
+                        }
+                        console.log(registerData)
+                    }
+                    return (
     <AnimationRevealPage>
         <Container>
             <Content>
@@ -62,19 +155,20 @@ export default ({
                         <Heading>{headingText}</Heading>
                         <FormContainer>
 
-                            <Form>
-                                <Input type="text" placeholder="Prénom" />
-                                <Input type="text" placeholder="Nom" />
-                                <Input type="text" placeholder="Pseudo" />
-                                <Input type="email" placeholder="Email" />
-                                <Input type="date" placeholder="Date de naissance" />
-                                <Input type="email" placeholder="Ville" />
-                                <Input type="text" placeholder="Numéro de téléphone" />
-                                <Input type="password" placeholder="Mot de passe" />
-                                <SubmitButton type="submit">
+                            <Form name="info" onSubmit={onSubmitInfo} ref={ref}>
+                                <Input type="text" placeholder="Prénom" onChange={(e) => onChanged(e,"firstname")}/>
+                                <Input type="text" placeholder="Nom" onChange={(e) => onChanged(e,"lastname")}/>
+                                <Input type="text" placeholder="Pseudo" onChange={(e) => onChanged(e,"username")}/>
+                                <Input type="email" placeholder="Email" onChange={(e) => onChanged(e,"email")}/>
+                                <Input type="date" placeholder="Date de naissance" onChange={(e) => onChanged(e,"birthday")} />
+                                <Input type="text" placeholder="Ville" onChange={(e) => onChanged(e,"city")}/>
+                                <Input type="text" placeholder="Numéro de téléphone" onChange={(e) => onChanged(e,"numberPhone")}/>
+                                <Input type="password" placeholder="Mot de passe" onChange={(e) => onChanged(e,"password")}/>
+                               {!inProcess && ( <SubmitButton type="submit">
                                     <SubmitButtonIcon className="icon" />
                                     <span className="text">{submitButtonText}</span>
-                                </SubmitButton>
+                                </SubmitButton>)}
+                                {inProcess && (<center><br /><ClipLoader color="#f6ad55" /></center>)}
                                 <p tw="mt-6 text-xs text-gray-600 text-center">
                                     J'accepte de respecter les {" "}
                                     <a href={tosUrl} tw="border-b border-gray-500 border-dotted">
@@ -102,4 +196,6 @@ export default ({
             </Content>
         </Container>
     </AnimationRevealPage>
-);
+)
+
+}

@@ -26,6 +26,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
+ 
     <Routes>
         <Route path="connexion" element={<Connexion />} />
         <Route path="inscription" element={<Inscription />} />
@@ -34,7 +35,7 @@ export default function App() {
         <Route path="mesFavoris" element={<FavorisPage/>}/>
         <Route path="preferencesInscription" element={<PreferencesInscription/>}/>
         <Route path="/" element={<Accueil />} />
-
+     
     </Routes>
   </BrowserRouter>
   );

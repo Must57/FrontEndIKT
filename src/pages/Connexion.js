@@ -1,14 +1,18 @@
-import React from "react";
+import React,{useState} from "react";
 import AnimationRevealPage from "helpers/AnimationRevealPage.js";
 import { Container as ContainerBase } from "components/misc/Layouts";
 import tw from "twin.macro";
-import {Link} from "react-router-dom"
+import {toast, ToastContainer} from 'react-toastify'
+import {Link, useNavigate} from "react-router-dom"
 import styled from "styled-components";
 import {css} from "styled-components/macro"; //eslint-disable-line
 import illustration from "images/connexion.svg";
 import logo from "images/LogoWhite.svg";
 
 import { ReactComponent as LoginIcon } from "feather-icons/dist/icons/log-in.svg";
+import { ClipLoader } from "react-spinners";
+import { useSelector } from "react-redux";
+import { userSelector } from "state/store/userReducer/selector/userSelector";
 
 const Container = tw(ContainerBase)`min-h-screen bg-orange-400 text-white font-medium flex justify-center -m-8`;
 const Content = tw.div`max-w-screen-xl m-0 sm:mx-20 sm:my-16 bg-white text-gray-900 shadow sm:rounded-lg flex justify-center flex-1`;
@@ -48,8 +52,21 @@ const  Connexion =  ({
                     forgotPasswordUrl = "#",
                     signupUrl = "#",
 
-                }) => (
+                }) =>  {
+                    const userState = useSelector(userSelector)
+                    const navigate = useNavigate()
+                    const [inProcess, setProcess] = useState(false)
+                    const onClick = (e) => {
+                        e.preventDefault()
+                        setProcess(true)
+                  
+                    }
+                    if (userState.isLogged) {
+                        navigate("/")
+                    }
+                    return (
     <AnimationRevealPage>
+    
         <Container>
             <Content>
                 <MainContainer>
@@ -64,10 +81,11 @@ const  Connexion =  ({
                             <Form>
                                 <Input type="email" placeholder="Email" />
                                 <Input type="password" placeholder="Mot de passe" />
-                                <SubmitButton type="submit">
+                                {!inProcess && (<SubmitButton  type="submit" onClick={onClick}>
                                     <SubmitButtonIcon className="icon" />
                                     <span className="text">{submitButtonText}</span>
-                                </SubmitButton>
+                                </SubmitButton>)}
+                                {inProcess && (<center><br /><ClipLoader color="#f6ad55" /></center>)}
                             </Form>
                             <p tw="mt-6 text-xs text-gray-600 text-center">
                                 <a href={forgotPasswordUrl} tw="border-b border-gray-500 border-dotted">
@@ -89,5 +107,6 @@ const  Connexion =  ({
             </Content>
         </Container>
     </AnimationRevealPage>
-);
+)
+}
 export default Connexion
