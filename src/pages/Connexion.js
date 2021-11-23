@@ -11,8 +11,10 @@ import logo from "images/LogoWhite.svg";
 
 import { ReactComponent as LoginIcon } from "feather-icons/dist/icons/log-in.svg";
 import { ClipLoader } from "react-spinners";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userSelector } from "state/store/userReducer/selector/userSelector";
+import axios from "axios";
+import { loginUser, updateInformationUser } from "state/store/userReducer/actions/userAction";
 
 const Container = tw(ContainerBase)`min-h-screen bg-orange-400 text-white font-medium flex justify-center -m-8`;
 const Content = tw.div`max-w-screen-xl m-0 sm:mx-20 sm:my-16 bg-white text-gray-900 shadow sm:rounded-lg flex justify-center flex-1`;
@@ -53,16 +55,39 @@ const  Connexion =  ({
                     signupUrl = "#",
 
                 }) =>  {
+                    const [loginData, setLoginData] = useState({username:'', password:''})
+
                     const userState = useSelector(userSelector)
+                    const dispatch = useDispatch()
                     const navigate = useNavigate()
                     const [inProcess, setProcess] = useState(false)
-                    const onClick = (e) => {
+                    const onClick = async (e) => {
                         e.preventDefault()
                         setProcess(true)
-                  
+                        try {
+                        const dataHttp = await axios.post('http://localhost:8000/login',loginData)
+                        console.log(dataHttp)
+                        if (dataHttp.data.type === "auth_success") {
+                            // we get the bearer.
+                            dispatch(loginUser({payload: dataHttp.data.token_bearer}))
+                            dispatch(updateInformationUser(dataHttp.data.user))
+                            toast.success('Connecté! Bienvenue sur IKnowTravel!')
+                            //  and dispatch the information user.
+                        }
+                        setProcess(false)
+                        }catch(err){
+                            toast.error('Authentification failed. Please try again!')
+                            setProcess(false)
+                        }
                     }
                     if (userState.isLogged) {
                         navigate("/")
+                    }
+                    const onChange = (e, type) => {
+                        switch(type){
+                            case "username": setLoginData({...loginData,username: e.target.value}); break;
+                            case "password": setLoginData({...loginData, password: e.target.value}); break;
+                        }
                     }
                     return (
     <AnimationRevealPage>
@@ -79,8 +104,8 @@ const  Connexion =  ({
 
 
                             <Form>
-                                <Input type="email" placeholder="Email" />
-                                <Input type="password" placeholder="Mot de passe" />
+                                <Input type="text" placeholder="Pseudonyme" onChange={e => onChange(e,"username")} />
+                                <Input type="password" placeholder="Mot de passe"  onChange={e => onChange(e,"password")} />
                                 {!inProcess && (<SubmitButton  type="submit" onClick={onClick}>
                                     <SubmitButtonIcon className="icon" />
                                     <span className="text">{submitButtonText}</span>

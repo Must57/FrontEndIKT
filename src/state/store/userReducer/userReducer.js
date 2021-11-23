@@ -27,6 +27,7 @@ export const LOGGED = 'LOGGED'
 export const DISCONNECT = 'DISCONNECT'
 
 
+
 export const userReducer = function (state= initialState, action) {
 
     switch(action.type) {

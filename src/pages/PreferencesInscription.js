@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import AnimationRevealPage from "helpers/AnimationRevealPage.js";
 import { Container as ContainerBase } from "components/misc/Layouts";
 import tw from "twin.macro";
+import axios from "axios"
 import styled from "styled-components";
 import {css} from "styled-components/macro"; //eslint-disable-line
 import illustration from "images/preferencesInscription.svg";
@@ -10,6 +11,7 @@ import { ReactComponent as LoginIcon } from "feather-icons/dist/icons/heart.svg"
 
 import DistanceSlider from "components/sliders/DistanceSlider.js";
 import MeteoSlider from "components/sliders/MeteoSlider";
+import { useLocation, useNavigate, useParams, useRoutes } from "react-router";
 
 const Container = tw(ContainerBase)`min-h-screen bg-orange-400 text-white font-medium flex justify-center -m-8`;
 const Content = tw.div`max-w-screen-xl m-0 sm:mx-20 sm:my-16 bg-white text-gray-900 shadow sm:rounded-lg flex justify-center flex-1`;
@@ -49,7 +51,25 @@ export default ({
                     forgotPasswordUrl = "#",
                     signupUrl = "#",
 
-                }) => (
+                }) => {
+                    const {state} = useLocation()
+                    const [isLoading, setLoading] = useState(false)
+                 
+                    const userId = state !== null ? state.userId: ''
+                    const [distanceState, setDistanceState]= useState(0)
+                    const onChange = (e) => {
+                        setDistanceState(e.target.value)
+                    }
+                    const callAPI = useCallback(async (data) => {
+                   
+                            let result = await axios.post('http://localhost:3031/updatePreferences/' + userId,data)
+                            return result.data
+                        
+                    })
+                    const onSubmit = async (e) => {
+                       await callAPI(distanceState)
+                    }
+                    return (
     <AnimationRevealPage>
         <Container>
             <Content>
@@ -65,10 +85,10 @@ export default ({
                             <Form>
 
                                 <p tw="mt-6 mb-5 text-xs text-gray-600 text-left">Définissez la zone où doit se trouver votre destination de voyage ?</p>
-                                <DistanceSlider />
+                                <DistanceSlider  onChange={onChange} value={distanceState} />
                                 <p tw="mt-6 mb-5 text-xs text-gray-600 text-left">Comment doit être la météo de votre destination ?</p>
                                 <MeteoSlider />
-                                <SubmitButton type="submit">
+                                <SubmitButton type="submit" onSubmit={onSubmit}>
                                     <SubmitButtonIcon className="icon" />
                                     <span className="text">{submitButtonText}</span>
                                 </SubmitButton>
@@ -84,4 +104,4 @@ export default ({
             </Content>
         </Container>
     </AnimationRevealPage>
-);
+)}

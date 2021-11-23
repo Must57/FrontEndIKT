@@ -71,7 +71,7 @@ export default ({
                         numberPhone: ""
                     })
                     if (userState.isLogged) {
-                        navigator("/")
+                        navigator("/", {replace:true})
                     }
                     const apiCall = useCallback(async (data) => {
                         let result = await axios.post('http://localhost:3031/createUser',data)
@@ -116,10 +116,11 @@ export default ({
                             }
 
                             else {
-                                toast.success('Registered !')
-                                navigator("/connexion")
+                                toast.success('Inscription effectuée !')
+                         
+                                navigator("/preferences", {state:{...registerData, userId: res.user._id}})
                                 setProcess(false)
-                                setRegisterData({})
+                            
                             }
                          }else{
                              setProcess(false)

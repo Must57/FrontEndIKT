@@ -33,7 +33,7 @@ export default function App() {
         <Route path="searchPage" element={<SearchPage/>}/>
         <Route path="monProfil" element={<ProfilPage/>}/>
         <Route path="mesFavoris" element={<FavorisPage/>}/>
-        <Route path="preferencesInscription" element={<PreferencesInscription/>}/>
+        <Route path="preferences" element={<PreferencesInscription/>}/>
         <Route path="/" element={<Accueil />} />
      
     </Routes>

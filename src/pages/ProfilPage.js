@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import tw from "twin.macro"; //eslint-disable-line
 import { css } from "styled-components/macro"; //eslint-disable-line
 import AnimationRevealPage from "helpers/AnimationRevealPage.js";
@@ -19,6 +19,8 @@ import { ReactComponent as ProfilIcon } from "feather-icons/dist/icons/user.svg"
 import logo from "../images/logo.svg";
 import DistanceSlider from "../components/sliders/DistanceSlider";
 import MeteoSlider from "../components/sliders/MeteoSlider";
+import { userSelector } from "state/store/userReducer/selector/userSelector.js";
+import { useSelector } from "react-redux";
 
 
 const Content = tw.div`max-w-screen-xl m-0 sm:mx-20 sm:my-16 bg-white text-gray-900  sm:rounded-lg flex justify-center flex-1`;
@@ -45,7 +47,11 @@ export default ({
     privacyPolicyUrl = "#",
     signInUrl = "#"
 
- }) => (
+ }) => {
+    const user = useSelector(userSelector) 
+  console.log(user)
+    
+    return (
     <AnimationRevealPage>
 
         <ProfilHero />
@@ -60,13 +66,13 @@ export default ({
                                 <p tw="mt-6 text-xs text-gray-600 text-center">
                                     N'oubliez pas d'enregistrer les modifications de vos informations
                                 </p>
-                                <Input type="text" placeholder="Prénom" value="Maria"/>
-                                <Input type="text" placeholder="Nom" value="Joselyne"/>
-                                <Input type="text" placeholder="Pseudo" value="Maria02"/>
-                                <Input type="email" placeholder="Email" value="MariaJos02@gmail.com"/>
-                                <Input type="date" placeholder="Date de naissance" value="2000-11-21"/>
-                                <Input type="email" placeholder="Ville" value="Metz"/>
-                                <Input type="text" placeholder="Numéro de téléphone" value="0745896341"/>
+                                <Input type="text" placeholder="Prénom" value={user.firstname}/>
+                                <Input type="text" placeholder="Nom" value={user.lastname}/>
+                                <Input type="text" placeholder="Pseudo" value={user.username}/>
+                                <Input type="email" placeholder="Email" value={user.email}/>
+                                <Input type="date" placeholder="Date de naissance" value={user.birthday} />
+                                <Input type="email" placeholder="Ville" value={user.city} />
+                                <Input type="text" placeholder="Numéro de téléphone" value={user.numberPhone}/>
 
 
                                 <SubmitButton type="submit">
@@ -89,9 +95,9 @@ export default ({
                         <p tw="mt-6 text-xs text-gray-600 text-center">
                             N'oubliez pas d'enregistrer votre nouveau mot de passe
                         </p>
-
-                        <Input type="password" placeholder="Mot de passe" value="Maria0245"/>
-                        <Input type="password" placeholder="Confirmer votre mot de passe" value="Maria0245"/>
+                        <Input type="password" placeholder="Mot de passe actuel" value=""/>
+                        <Input type="password" placeholder="Nouveau Mot de passe" value=""/>
+                        <Input type="password" placeholder="Confirmer votre mot de passe" value=""/>
 
                         <SubmitButton type="submit">
                             <SubmitButtonIcon className="icon" />
@@ -127,4 +133,4 @@ export default ({
         </Content>
         <Footer />
     </AnimationRevealPage>
-);
+)}
