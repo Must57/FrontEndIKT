@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import tw from "twin.macro"; //eslint-disable-line
 import { css } from "styled-components/macro"; //eslint-disable-line
 import AnimationRevealPage from "helpers/AnimationRevealPage.js";
@@ -12,8 +12,22 @@ import HotelTrendSlider from "components/cards/HotelTrendSlider";
 import FlightTrendSlider from "components/cards/FlightTrendSlider";
 import TrainPromotionSlider from "components/cards/TrainPromotionSlider";
 import customerSupportIllustrationSrc from "images/customer-support-illustration.svg";
+import { useSelector } from "react-redux";
+import { userSelector } from "state/store/userReducer/selector/userSelector";
+import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
-export default () => (
+export default () => {
+    const user = useSelector(userSelector)
+    const navigate = useNavigate()
+    
+    useEffect(() => {
+        if (!user.isLogged) {
+            navigate('/connexion')
+            toast.warn('Salut, tu devrais te connecter!')
+        }
+    },[])
+    return (
     <AnimationRevealPage>
         <Hero />
 
@@ -57,4 +71,4 @@ export default () => (
         <ContactUsForm />
         <Footer />
     </AnimationRevealPage>
-);
+)}

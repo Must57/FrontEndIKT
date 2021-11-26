@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import tw from "twin.macro"; //eslint-disable-line
 import { css } from "styled-components/macro"; //eslint-disable-line
 import AnimationRevealPage from "helpers/AnimationRevealPage.js";
@@ -21,6 +21,8 @@ import DistanceSlider from "../components/sliders/DistanceSlider";
 import MeteoSlider from "../components/sliders/MeteoSlider";
 import { userSelector } from "state/store/userReducer/selector/userSelector.js";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 
 const Content = tw.div`max-w-screen-xl m-0 sm:mx-20 sm:my-16 bg-white text-gray-900  sm:rounded-lg flex justify-center flex-1`;
@@ -49,8 +51,31 @@ export default ({
 
  }) => {
     const user = useSelector(userSelector) 
-  console.log(user)
-    
+    let [userInfo,setUserInfo] = useState({...user})
+    const navigate = useNavigate()
+    console.log(user)
+ 
+    useEffect(() => {
+        if (!user.isLogged) {
+            navigate('/connexion')
+            toast.warn('Salut, tu devrais te connecter!')
+        }
+    },[])
+    const onChanged = (e, typeValue) => {
+        const newValue = e.target.value
+        switch(typeValue){
+            case "username": setUserInfo({...userInfo,username:newValue}); break;
+            case "email": setUserInfo({...userInfo, email: newValue}); break;
+            case "firstname": setUserInfo({...userInfo, firstname: newValue}); break;
+            case "lastname": setUserInfo({...userInfo,lastname: newValue}); break;
+            case "numberPhone": setUserInfo({...userInfo,numberPhone: newValue}); break;
+            case "birthday":  setUserInfo({...userInfo, birthday: newValue}); break;
+            case "password": setUserInfo({...userInfo, password: newValue}); break;
+            case "city": setUserInfo({...userInfo,city: newValue})
+            default:
+        }
+        
+    }
     return (
     <AnimationRevealPage>
 
@@ -66,13 +91,13 @@ export default ({
                                 <p tw="mt-6 text-xs text-gray-600 text-center">
                                     N'oubliez pas d'enregistrer les modifications de vos informations
                                 </p>
-                                <Input type="text" placeholder="Prénom" value={user.firstname}/>
-                                <Input type="text" placeholder="Nom" value={user.lastname}/>
-                                <Input type="text" placeholder="Pseudo" value={user.username}/>
-                                <Input type="email" placeholder="Email" value={user.email}/>
-                                <Input type="date" placeholder="Date de naissance" value={user.birthday} />
-                                <Input type="email" placeholder="Ville" value={user.city} />
-                                <Input type="text" placeholder="Numéro de téléphone" value={user.numberPhone}/>
+                                <Input type="text" placeholder="Prénom" value={userInfo.firstname} onChange={e => onChanged(e,"firstname")} />
+                                <Input type="text" placeholder="Nom" value={userInfo.lastname} onChange={e => onChanged(e,"lastname")} />
+                                <Input type="text" placeholder="Pseudo" value={userInfo.username} onChange={e => onChanged(e,"username")} />
+                                <Input type="email" placeholder="Email" value={userInfo.email} onChange={e => onChanged(e,"email")} />
+                                <Input type="date" placeholder="Date de naissance" value={userInfo.birthday} onChange={e => onChanged(e,"birthday")} />
+                                <Input type="email" placeholder="Ville" value={userInfo.city}  onChange={e => onChanged(e,"city")} />
+                                <Input type="text" placeholder="Numéro de téléphone" value={userInfo.numberPhone} onChange={e => onChanged(e,"numberPhone")} />
 
 
                                 <SubmitButton type="submit">

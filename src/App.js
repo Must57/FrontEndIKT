@@ -28,7 +28,7 @@ export default function App() {
     <BrowserRouter>
  
     <Routes>
-        <Route path="connexion" element={<Connexion />} />
+        <Route path="/connexion" element={<Connexion />} />
         <Route path="inscription" element={<Inscription />} />
         <Route path="searchPage" element={<SearchPage/>}/>
         <Route path="monProfil" element={<ProfilPage/>}/>
