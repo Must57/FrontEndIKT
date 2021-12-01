@@ -10,9 +10,9 @@ import Footer from "components/footers/FooterIKT.js";
 
 import ProfilHeader from "../components/pageHead/ProfilHeader.js";
 import PreferencesHeader from "../components/pageHead/PreferencesHeader.js";
-
+import { ClipLoader } from "react-spinners";
 import { Container as ContainerBase } from "components/misc/Layouts";
-
+import axios from "axios";
 
 import styled from "styled-components";
 import { ReactComponent as ProfilIcon } from "feather-icons/dist/icons/user.svg";
@@ -20,10 +20,10 @@ import logo from "../images/logo.svg";
 import DistanceSlider from "../components/sliders/DistanceSlider";
 import MeteoSlider from "../components/sliders/MeteoSlider";
 import { userSelector } from "state/store/userReducer/selector/userSelector.js";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
-
+import {updateInformationUser} from '../state/store/userReducer/actions/userAction'
 
 const Content = tw.div`max-w-screen-xl m-0 sm:mx-20 sm:my-16 bg-white text-gray-900  sm:rounded-lg flex justify-center flex-1`;
 const MainContainer = tw.div`lg:w-1/2 xl:w-5/12 p-6 sm:p-12`;
@@ -51,6 +51,12 @@ export default ({
 
  }) => {
     const user = useSelector(userSelector) 
+    const [loading, setLoading] = useState(false)
+    const [loadingPass, setLoadingPass] = useState(false)
+    const [currentPassword,setCurrentPassword] = useState('')
+    const [newPass,setNewPass] = useState('')
+    const [newPass2,setNewPass2] = useState('')
+    const dispatch = useDispatch()
     let [userInfo,setUserInfo] = useState({...user})
     const navigate = useNavigate()
     console.log(user)
@@ -76,6 +82,51 @@ export default ({
         }
         
     }
+
+    const onSubmit = async (e) => {
+        e.preventDefault()
+        setLoading(true)
+
+        try {
+        const dataHttp = await axios.post('http://localhost:8000/user-service/updateSettings/'+user._id,userInfo,{headers:{"Authorization": "Bearer "+ user.token}})
+        console.log(dataHttp)
+      if(dataHttp.data.message === "ok") {
+          toast.success('Profil mis à jour avec succès !')
+          dispatch(updateInformationUser(userInfo))
+      }
+
+        setLoading(false)
+    }catch(err){
+        toast.error('Une erreur a été survenue lors de la mise à jour de votre profil.')
+        setLoading(false)
+    }}
+    const onSubmitPass =async (e) => {
+        e.preventDefault()
+        setLoadingPass(true)
+        try {
+            if(newPass !== newPass2 ) {
+                toast.error('Le nouveau mot de passe et la confirmation doit être identique.')
+            }else {
+            const dataHttp = await axios.post('http://localhost:8000/user-service/updatePassword/'+user._id,{password:currentPassword,newPass,newPass2},{headers:{"Authorization": "Bearer "+ user.token}})
+            console.log(dataHttp)
+          if(dataHttp.data.message === "ok") {
+              toast.success('Mot de passe mise à jour avec succès !')
+              // reset input
+              setNewPass("")
+              setCurrentPassword("")
+              setNewPass2("")
+             
+          }
+        }
+          setLoadingPass(false)
+        }catch(err) {
+            setLoadingPass(false)
+            console.log(err)
+            toast.error(err)
+        }
+
+        setLoading(false)
+    }
     return (
     <AnimationRevealPage>
 
@@ -86,24 +137,32 @@ export default ({
 
                         <MainContainer>
                         <MainContent>
-                            <Form>
+                            <Form onSubmit={onSubmit}>
                                 <Title>Modification de vos informations personnelles</Title>
                                 <p tw="mt-6 text-xs text-gray-600 text-center">
                                     N'oubliez pas d'enregistrer les modifications de vos informations
                                 </p>
+                                Prénom
                                 <Input type="text" placeholder="Prénom" value={userInfo.firstname} onChange={e => onChanged(e,"firstname")} />
+                              Nom
                                 <Input type="text" placeholder="Nom" value={userInfo.lastname} onChange={e => onChanged(e,"lastname")} />
+                              Pseudo
                                 <Input type="text" placeholder="Pseudo" value={userInfo.username} onChange={e => onChanged(e,"username")} />
+                               Email
                                 <Input type="email" placeholder="Email" value={userInfo.email} onChange={e => onChanged(e,"email")} />
+                              Date de naissance
                                 <Input type="date" placeholder="Date de naissance" value={userInfo.birthday} onChange={e => onChanged(e,"birthday")} />
-                                <Input type="email" placeholder="Ville" value={userInfo.city}  onChange={e => onChanged(e,"city")} />
+                               Ville
+                               <Input type="text" placeholder="Ville" value={userInfo.city}  onChange={e => onChanged(e,"city")} />
+                               Numéro de téléphone
                                 <Input type="text" placeholder="Numéro de téléphone" value={userInfo.numberPhone} onChange={e => onChanged(e,"numberPhone")} />
 
 
-                                <SubmitButton type="submit">
+                               {!loading && ( <SubmitButton type="submit" onSubmit={onSubmit}>
                                     <SubmitButtonIcon className="icon" />
                                     <span className="text">{submitButtonText}</span>
-                                </SubmitButton>
+                                </SubmitButton>)}
+                                {loading && (<center><br /><ClipLoader color="#f6ad55" /></center>)}
 
 
                             </Form>
@@ -115,19 +174,26 @@ export default ({
 
             <MainContainer>
                 <MainContent>
-                    <Form>
+                    <Form onSubmit={onSubmitPass}>
                         <Title>Modification mot de passe</Title>
                         <p tw="mt-6 text-xs text-gray-600 text-center">
                             N'oubliez pas d'enregistrer votre nouveau mot de passe
                         </p>
-                        <Input type="password" placeholder="Mot de passe actuel" value=""/>
-                        <Input type="password" placeholder="Nouveau Mot de passe" value=""/>
-                        <Input type="password" placeholder="Confirmer votre mot de passe" value=""/>
+                        <Input type="password" placeholder="Mot de passe actuel" value={currentPassword} onChange={(e) => {
+                            setCurrentPassword(e.target.value)
+                        }}/>
+                        <Input type="password" placeholder="Nouveau Mot de passe" value={newPass} onChange={(e) => {
+                            setNewPass(e.target.value)
+                        }} />
+                        <Input type="password" placeholder="Confirmer votre mot de passe" value={newPass2} onChange={(e) => {
+                            setNewPass2(e.target.value)
+                        }}/>
 
-                        <SubmitButton type="submit">
+                        {!loadingPass && (<SubmitButton type="submit">
                             <SubmitButtonIcon className="icon" />
                             <span className="text">{submitButtonText}</span>
-                        </SubmitButton>
+                        </SubmitButton>)}
+                        {loadingPass && (<center><br /><ClipLoader color="#f6ad55" /></center>)}
 
 
                     </Form>
