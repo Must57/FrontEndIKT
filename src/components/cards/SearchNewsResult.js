@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import Slider from "react-slick";
 import tw from "twin.macro";
 import styled from "styled-components";
@@ -8,6 +8,9 @@ import { PrimaryButton as PrimaryButtonBase } from "components/misc/Buttons";
 import { ReactComponent as LocationIcon } from "feather-icons/dist/icons/clipboard.svg";
 import { ReactComponent as ChevronLeftIcon } from "feather-icons/dist/icons/chevron-left.svg";
 import { ReactComponent as ChevronRightIcon } from "feather-icons/dist/icons/chevron-right.svg";
+
+import axios from 'axios';
+
 
 const Container = tw.div`relative`;
 const Content = tw.div`max-w-screen-xl mx-auto py-16 lg:py-20`;
@@ -65,6 +68,8 @@ const Text = tw.div`ml-2 text-sm font-semibold text-gray-800`;
 
 const PrimaryButton = tw(PrimaryButtonBase)`mt-auto sm:text-lg rounded-none w-full rounded sm:rounded-none sm:rounded-br-4xl py-3 sm:py-6`;
 export default () => {
+
+    const [loading, setLoading] = useState(true)
     // useState is used instead of useRef below because we want to re-render when sliderRef becomes available (not null)
     const [sliderRef, setSliderRef] = useState(null);
     const sliderSettings = {
@@ -88,7 +93,7 @@ export default () => {
     };
 
     /* Change this according to your needs */
-    const cards = [
+    const [newsData, setNewsData] = useState([
         {
             imageSrc: "https://fyooyzbm.filerobot.com/v7/protec/DATA_ART_8148967-zKMj4YrO.jpg?vh=873c24&ci_seal=b9045ba6dd&w=1280&h=746&gravity=auto&func=crop",
             title: "En raison d'une forte houle, baignade déconseillée à Nice, Monaco et Menton ce dimanche",
@@ -117,7 +122,29 @@ export default () => {
             newsSoucre: "Nice Matin",
 
         },
-    ]
+    ])
+
+    useEffect(
+        ()=> {
+            axios.get("http://localhost:3038/nice")
+                .then(response => {
+                    setLoading(false)
+
+                    console.log(response);
+                    const newNListData = []
+                    let i = 0
+                    for(i=0; i < 10; i++){
+                        if(response.data.news.articles[i].topic === "news"){
+                            let resp = response.data.news.articles[i]
+                            console.log(response.data)
+                            newNListData.push(resp)
+                        }
+                    }
+                    console.log(newNListData[0])
+                    setNewsData(newNListData)
+                })
+        }, []
+    )
 
     return (
         <Container>
@@ -130,27 +157,27 @@ export default () => {
                     </Controls>
                 </HeadingWithControl>
                 <CardSlider ref={setSliderRef} {...sliderSettings}>
-                    {cards.map((card, index) => (
+                    {newsData.map((nd, index) => (
                         <Card key={index}>
-                            <CardImage imageSrc={card.imageSrc} />
+                            <CardImage imageSrc={nd !== undefined ? nd.media : ''} />
                             <TextInfo>
                                 <TitleReviewContainer>
-                                    <Title>{card.title}</Title>
+                                    <Title>{nd !== undefined ? nd.title : ''}</Title>
 
                                 </TitleReviewContainer>
-                                <Description>{card.description}</Description>
+                                <Description>{nd !== undefined ? nd.summary : ''}</Description>
                                 <SecondaryInfoContainer>
                                     <IconWithText>
                                         <IconContainer>
                                             <LocationIcon />
                                         </IconContainer>
-                                        <Text>{card.newsSoucre}</Text>
+                                        <Text>{nd !== undefined ? nd.author : ''}</Text>
                                     </IconWithText>
 
                                 </SecondaryInfoContainer>
 
                             </TextInfo>
-                            <PrimaryButton>Voir</PrimaryButton>
+                            <PrimaryButton><a target="_blank" href={nd !== undefined ? nd.link : ''}>Voir</a></PrimaryButton>
                         </Card>
                     ))}
                 </CardSlider>
