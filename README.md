@@ -10,3 +10,11 @@ State Management sera aussi implementée.
 
 La première version comporte seulement les pages nécessaires pour débuter.
 
+Retse à faire:
+
+
+- SearchPage
+
+- add favourite / list favourite
+
+- stockage local des infos user login
