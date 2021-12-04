@@ -71,6 +71,8 @@ const  Connexion =  ({
                             // we get the bearer.
                             dispatch(loginUser({payload: dataHttp.data.token_bearer}))
                             dispatch(updateInformationUser(dataHttp.data.user))
+                            localStorage.setItem('user_info', JSON.stringify(dataHttp.data.user))
+                            localStorage.setItem('user_token',dataHttp.data.token_bearer)
                             toast.success('Connecté! Bienvenue sur IKnowTravel!')
                             //  and dispatch the information user.
                         }

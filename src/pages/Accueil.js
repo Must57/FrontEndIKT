@@ -12,19 +12,25 @@ import HotelTrendSlider from "components/cards/HotelTrendSlider";
 import FlightTrendSlider from "components/cards/FlightTrendSlider";
 import TrainPromotionSlider from "components/cards/TrainPromotionSlider";
 import customerSupportIllustrationSrc from "images/customer-support-illustration.svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userSelector } from "state/store/userReducer/selector/userSelector";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import { loginUser, updateInformationUser } from "state/store/userReducer/actions/userAction";
 
 export default () => {
     const user = useSelector(userSelector)
     const navigate = useNavigate()
-    
+    const dispatch = useDispatch()
     useEffect(() => {
-        if (!user.isLogged) {
+        if (!user.isLogged && (localStorage.getItem('user_token') === null || localStorage.getItem('user_info') === null)) {
             navigate('/connexion')
             toast.warn('Salut, tu devrais te connecter!')
+        } else {
+            if (!user.isLogged) {
+            dispatch(loginUser({payload: localStorage.getItem('user_token')}))
+            dispatch(updateInformationUser(JSON.parse(localStorage.getItem('user_info'))))
+            }
         }
     },[])
     return (

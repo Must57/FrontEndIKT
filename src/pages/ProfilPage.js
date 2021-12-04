@@ -7,13 +7,14 @@ import ProfilHero from "components/hero/ProfilHero.js";
 
 
 import Footer from "components/footers/FooterIKT.js";
-
+import { Select, Spin } from 'antd';
+import debounce from 'lodash/debounce';
 import ProfilHeader from "../components/pageHead/ProfilHeader.js";
 import PreferencesHeader from "../components/pageHead/PreferencesHeader.js";
 import { ClipLoader } from "react-spinners";
 import { Container as ContainerBase } from "components/misc/Layouts";
 import axios from "axios";
-
+import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import styled from "styled-components";
 import { ReactComponent as ProfilIcon } from "feather-icons/dist/icons/user.svg";
 import logo from "../images/logo.svg";
@@ -23,7 +24,7 @@ import { userSelector } from "state/store/userReducer/selector/userSelector.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
-import {updateInformationUser} from '../state/store/userReducer/actions/userAction'
+import {loginUser, updateInformationUser} from '../state/store/userReducer/actions/userAction'
 
 const Content = tw.div`max-w-screen-xl m-0 sm:mx-20 sm:my-16 bg-white text-gray-900  sm:rounded-lg flex justify-center flex-1`;
 const MainContainer = tw.div`lg:w-1/2 xl:w-5/12 p-6 sm:p-12`;
@@ -41,7 +42,84 @@ const SubmitButton = styled.button`
   }
 `;
 
+function DebounceSelect({ fetchOptions, debounceTimeout = 800, ...props }) {
+    const [fetching, setFetching] = React.useState(false);
+    const [options, setOptions] = React.useState([]);
+    const fetchRef = React.useRef(0);
+    const debounceFetcher = React.useMemo(() => {
+      const loadOptions = (value) => {
+        fetchRef.current += 1;
+        const fetchId = fetchRef.current;
+        setOptions([]);
+        setFetching(true);
+        fetchOptions(value).then((newOptions) => {
+          if (fetchId !== fetchRef.current) {
+            // for fetch callback order
+            return;
+          }
+  
+          setOptions(newOptions);
+          setFetching(false);
+        });
+      };
+  
+      return debounce(loadOptions, debounceTimeout);
+    }, [fetchOptions, debounceTimeout]);
+    return (
+      <Select
+        labelInValue
+        filterOption={false}
+        onSearch={debounceFetcher}
+        notFoundContent={fetching ? <Spin size="small" /> : null}
+        {...props}
+        options={options}
+      />
+    );
+  } // Usage of DebounceSelect
+  async function fetchCity(city, token) {
 
+    if (city === undefined) {
+    return fetch('http://localhost:8000/cityinfo-service/listCity', {headers:{'authorization':'Bearer ' +token}})
+      .then((response) => response.json())
+      .then((body) =>
+        body.cities.map((reg) => ({
+          label: `${reg}`,
+          value: reg,
+        })),
+      );
+    } else{
+      return fetch('http://localhost:8000/cityinfo-service/listCity/'+city, {headers:{'authorization':'Bearer ' +token}})
+      .then((response) => response.json())
+      .then((body) =>
+        body.cities.map((reg) => ({
+          label: `${reg}`,
+          value: reg,
+        })),
+      );
+    }
+  }
+  async function fetchRegions(regi, token) {
+
+    if (regi === undefined) {
+    return fetch('http://localhost:8000/cityinfo-service/listRegions', {headers:{'authorization':'Bearer ' +token}})
+      .then((response) => response.json())
+      .then((body) =>
+        body.regions.map((reg) => ({
+          label: `${reg}`,
+          value: reg,
+        })),
+      );
+    }else{
+      return fetch('http://localhost:8000/cityinfo-service/listRegions/'+regi, {headers:{'authorization':'Bearer ' +token}})
+      .then((response) => response.json())
+      .then((body) =>
+        body.regions.map((reg) => ({
+          label: `${reg}`,
+          value: reg,
+        })),
+      );
+    }
+  }
 export default ({
     submitButtonText = "Enregistrer",
     SubmitButtonIcon = ProfilIcon,
@@ -50,9 +128,14 @@ export default ({
     signInUrl = "#"
 
  }) => {
-    const user = useSelector(userSelector) 
+
+
     const [loading, setLoading] = useState(false)
+    const user = useSelector(userSelector) 
+        console.log('state ', user)
+    const [dataLoad, setDataLoad] = useState(false)
     const [loadingPass, setLoadingPass] = useState(false)
+    const [loadingPref, setLoadingPref] = useState(false)
     const [currentPassword,setCurrentPassword] = useState('')
     const [newPass,setNewPass] = useState('')
     const [newPass2,setNewPass2] = useState('')
@@ -60,13 +143,52 @@ export default ({
     let [userInfo,setUserInfo] = useState({...user})
     const navigate = useNavigate()
     console.log(user)
- 
+    const [listRegionsFav, setListRegionsFav] = React.useState(user.preferences.allow_regions_only);
+    const [listExcludeCity,setListExcludeCity] = React.useState(user.preferences.exclude_city)
+    console.log(listRegionsFav)
     useEffect(() => {
+      if (!user.isLogged && (localStorage.getItem('user_token') === null || localStorage.getItem('user_info') === null)) {
+        navigate('/connexion')
+        toast.warn('Salut, tu devrais te connecter!')
+    } else {
         if (!user.isLogged) {
-            navigate('/connexion')
-            toast.warn('Salut, tu devrais te connecter!')
+        dispatch(loginUser({payload: localStorage.getItem('user_token')}))
+        dispatch(updateInformationUser(JSON.parse(localStorage.getItem('user_info'))))
+        setListRegionsFav(user.preferences.allow_regions_only)
+        setListExcludeCity(user.preferences.exclude_city)
         }
-    },[])
+    }
+
+      let listReg = []
+      if (listRegionsFav !== undefined && listRegionsFav.length > 0) {
+      for(let e of  listRegionsFav) {
+        if (e.value === undefined || e.value  === null) {
+        listReg.push({key: e, value:e, label:e})
+        }else{
+          listReg.push(e)
+        }
+      }
+    }
+    
+      setListRegionsFav(listReg)
+      let listCity = []
+      if (listExcludeCity !== undefined && listExcludeCity.length > 0) {
+      for(let e of  listExcludeCity) {
+        if (e.value === undefined || e.value  === null) {
+          listCity.push({key: e, value:e, label:e})
+        }else{
+          listCity.push(e)
+        }
+      }
+      setListExcludeCity(listCity)
+    }
+    if (user !== undefined) {
+setDataLoad(true)
+console.log('donne recu')    
+}else{
+      console.log('donnee pas recu')
+    }
+    },[user])
     const onChanged = (e, typeValue) => {
         const newValue = e.target.value
         switch(typeValue){
@@ -93,6 +215,7 @@ export default ({
       if(dataHttp.data.message === "ok") {
           toast.success('Profil mis à jour avec succès !')
           dispatch(updateInformationUser(userInfo))
+          localStorage.setItem('user_info',JSON.stringify(user))
       }
 
         setLoading(false)
@@ -127,12 +250,36 @@ export default ({
 
         setLoading(false)
     }
+    const onSubmitPref =async (e) => {
+        e.preventDefault()
+        setLoadingPref(true)
+        try {
+          
+            const dataHttp = await axios.post('http://localhost:8000/user-service/updatePreferences/'+user._id,{allow_regions_only: listRegionsFav, exclude_city: listExcludeCity},{headers:{"Authorization": "Bearer "+ user.token}})
+            console.log(dataHttp)
+          if(dataHttp.data.message === "ok") {
+              toast.success('Preferences mise à jour avec succès !')
+              // reset input
+              dispatch(updateInformationUser({preferences: {allow_regions_only: listRegionsFav, exclude_city:listExcludeCity}}))
+             localStorage.setItem('user_info',JSON.stringify(user))
+          
+        }
+        setLoadingPref(false)
+        }catch(err) {
+            toast.error('Une erreur est survenue!')
+            setLoadingPref(false)
+            console.log(err)
+            
+        }
+
+        setLoading(false)
+    }
     return (
     <AnimationRevealPage>
 
         <ProfilHero />
         <ProfilHeader />
-            <Content>
+        {dataLoad &&(  <Content>
 
 
                         <MainContainer>
@@ -168,7 +315,8 @@ export default ({
                             </Form>
                         </MainContent>
             </MainContainer>
-            </Content>
+            </Content>)}
+            {!dataLoad && (<Spin />)}
         <Content>
 
 
@@ -206,16 +354,43 @@ export default ({
                 <MainContent>
 
 
-                        <Form>
+                        <Form onSubmit={onSubmitPref}>
 
-                            <p tw="mt-6 mb-5 text-xs text-gray-600 text-left">Définissez la zone où doit se trouver votre destination de voyage ?</p>
-                            <DistanceSlider />
-                            <p tw="mt-6 mb-5 text-xs text-gray-600 text-left">Comment doit être la météo de votre destination ?</p>
-                            <MeteoSlider />
-                            <SubmitButton type="submit">
-                                <SubmitButtonIcon className="icon" />
-                                <span className="text">{submitButtonText}</span>
-                            </SubmitButton>
+                            <p tw="mt-6 mb-5 text-xs text-gray-600 text-left">Listez les regions que vous favorisez (vide si ce n'est pas important pour vous)</p>
+                            <DebounceSelect
+      mode="multiple"
+      value={listRegionsFav}
+      placeholder="Listez les regions"
+      fetchOptions={(v) => fetchRegions(v,user.token)}
+      onChange={(newValue) => {
+        setListRegionsFav(newValue);
+      }}
+      style={{
+          color:'orange',
+          borderColor:'orange',
+        width: '100%',
+      }}
+    />
+                            <p tw="mt-6 mb-5 text-xs text-gray-600 text-left">Exclure des villes?</p>
+                            <DebounceSelect
+      mode="multiple"
+      value={listExcludeCity}
+      placeholder="Exclure des villes"
+      fetchOptions={(v) => fetchCity(v,user.token)}
+      onChange={(newValue) => {
+        setListExcludeCity(newValue);
+      }}
+      style={{
+          color:'orange',
+          borderColor:'orange',
+        width: '100%',
+      }}
+    />
+                            {!loadingPref && (<SubmitButton type="submit">
+                            <SubmitButtonIcon className="icon" />
+                            <span className="text">{submitButtonText}</span>
+                        </SubmitButton>)}
+                        {loadingPref && (<center><br /><ClipLoader color="#f6ad55" /></center>)}
                         </Form>
 
                 </MainContent>
