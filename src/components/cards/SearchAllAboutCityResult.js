@@ -60,6 +60,7 @@ const DecoratorBlob2 = styled(SvgDecoratorBlob2)`
 
 export default ({
                     heading = "Lieux Importants",
+                    data = {},  // possède: {banques:{banques:..,length:..}},..
                     tabs = {
                         Commerces: [
                             {

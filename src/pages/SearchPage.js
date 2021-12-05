@@ -31,7 +31,7 @@ export default () => {
     const navigate = useNavigate()
     const location = useLocation()
     const [dataReceived, setDataReceived] = useState(false)
-    const [searchData, setSearchData] = useState({news:'', city:'',meteo:''})
+    const [searchData, setSearchData] = useState({news:'', city:'',meteo:'', allaboutcity:''})
     const [distanceBetween, setDistanceBetween] = useState('🏠 ➞ Loading..')
     console.log(location)
     
@@ -85,6 +85,8 @@ console.log(user._id)
     setSearchData(searchRequest.data)
     setDataReceived(true)
 },[user]);
+
+//fait console.log() pour voir ce qu'il a
     
     return (
     <AnimationRevealPage>
@@ -95,7 +97,7 @@ console.log(user._id)
          {dataReceived && (<><SearchNewsResult news={searchData.news} />
 
 <SearchWeatherResult meteo={searchData.meteo} city={city}/>
-<SearchAllAboutCityResult />
+<SearchAllAboutCityResult data={searchData.allaboutcity.allaboutcity}/>
 <SearchHotelResult />
 <SearchFlightResult />
 <SearchTrainResult />
