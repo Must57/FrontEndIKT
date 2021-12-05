@@ -10,6 +10,9 @@ import { ReactComponent as LocationIcon } from "feather-icons/dist/icons/map-pin
 import { ReactComponent as AccueilIcon } from "feather-icons/dist/icons/home.svg";
 import { ReactComponent as MonProfilIcon } from "feather-icons/dist/icons/user.svg";
 import { ReactComponent as MesFavorisIcon } from "feather-icons/dist/icons/heart.svg";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { userSelector } from "state/store/userReducer/selector/userSelector.js";
 
 
 const StyledHeader = styled(Header)`
@@ -89,6 +92,7 @@ const IconContainer3 = styled.div`
 `;
 
 export default () => {
+  const user = useSelector(userSelector)
     const navLinks = [
         <NavLinks key={1}>
             <Link to="/">
@@ -130,7 +134,13 @@ export default () => {
             </NavLink>
         </NavLinks>
     ];
+    const callDecouverte = async() => {
 
+  
+
+      const decouverte = await axios.post('http://localhost:8000/search-allaboutcity-service/decouverte', {userId:user._id}, {headers: {'Authorization': 'Bearer '+ user.token}})
+    console.log(decouverte)
+    }
     return (
         <Container>
             <OpacityOverlay />
@@ -144,7 +154,7 @@ export default () => {
                             <br />
                             <SlantedBackground>la montagne</SlantedBackground>
                         </Heading>
-                        <PrimaryAction>Découvrez votre destination</PrimaryAction>
+                        <PrimaryAction onClick={callDecouverte}>Découvrez votre destination</PrimaryAction>
                     </LeftColumn>
                     <RightColumn>
                         <StyledResponsiveVideoEmbed

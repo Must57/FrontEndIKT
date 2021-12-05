@@ -12,6 +12,7 @@ import { ReactComponent as ChevronLeftIcon } from "feather-icons/dist/icons/chev
 import { ReactComponent as ChevronRightIcon } from "feather-icons/dist/icons/chevron-right.svg";
 
 import axios from 'axios';
+import { Spin } from "antd";
 
 
 
@@ -71,7 +72,7 @@ const Text = tw.div`ml-2 text-sm font-semibold text-gray-800`;
 
 const PrimaryButton = tw(PrimaryButtonBase)`mt-auto sm:text-lg rounded-none w-full rounded sm:rounded-none sm:rounded-br-4xl py-3 sm:py-6`;
 
-export default () => {
+export default ({city,meteo}) => {
     const [loading, setLoading] = useState(true)
     //Change this according to your needs
     const [weatherData, setWeatherData] = useState([
@@ -117,24 +118,24 @@ export default () => {
     useEffect(
         ()=> {
 
-            axios.get("http://localhost:3037/nice")
-                .then(response => {
+     console.log(meteo, 'receivzd')
 
-                        setLoading(false)
-                    /**
-                     * s
-                     */
-                    console.log(response);
+                        setLoading(true)
+                 
                     const newListData = []
+                    if (meteo !== '') {
                     let i = 0
-                    for (i=0; i < response.data.meteo.list.length; i++) {
-                        let resp = response.data.meteo.list[i]
-                        console.log(response.data)
+                    console.log('m',meteo)
+                    for (i=0; i < meteo.length; i++) {
+                        let resp = meteo[i]
+                 
                         newListData.push(resp)
                     }
                     console.log(newListData[0])
+                }
                     setWeatherData(newListData)
-                })
+                    setLoading(false)
+               
         },[]
     )
 
@@ -161,8 +162,9 @@ export default () => {
 
 
     return (
-
-        <Container>
+<>
+{loading && (<Spin />)}
+{!loading && (  <Container>
             <Content>
                 <HeadingWithControl>
                     <Heading>Météo</Heading>
@@ -171,14 +173,14 @@ export default () => {
                         <NextButton onClick={sliderRef?.slickNext}><ChevronRightIcon/></NextButton>
                     </Controls>
                 </HeadingWithControl>
-                {loading && (<div>Chargement des données Météo</div>)}
+          {weatherData.length == 0 &&(<Text>Aucune donnée de météo trouvée!</Text>)}
                 {!loading &&(  <CardSlider ref={setSliderRef} {...sliderSettings}>
-                    {weatherData.map((wh, index) => (
+                    {weatherData.length >0 && weatherData.map((wh, index) => (
                         <Card key={index}>
                             <CardImage /*imageSrc={*//*wh.imageSrc}*/ />
                             <TextInfo>
                                 <TitleReviewContainer>
-                                    <Title>{wh.city !== undefined ? wh.city.name : ''}</Title>
+                                    <Title>{city}</Title>
                                     <RatingsInfo>
                                         <DurationIcon />
                                         <Rating>{/*card.date*/}</Rating>
@@ -189,7 +191,7 @@ export default () => {
                                         <IconContainer>
                                             <TempIcon />
                                         </IconContainer>
-                                        <Text>{wh.main !== undefined ? wh.main.temp : ''}</Text>
+                                        <Text>{wh.main !== undefined ? wh.main: ''}</Text>
                                     </IconWithText>
                                     <IconWithText>
                                     <IconContainer>
@@ -198,14 +200,16 @@ export default () => {
                                         <Text>{wh.main !== undefined ? wh.main.temp_max : ''}</Text>
                                     </IconWithText>
                                 </SecondaryInfoContainer>
-                                <Description>{wh.weather !== undefined ? wh.weather[0] !== undefined ? wh.weather[0].description : '' : ''}</Description>
+                                <Description>{ wh.description}</Description>
                             </TextInfo>
                             <PrimaryButton>Voir</PrimaryButton>
                         </Card>
                     ))}
                 </CardSlider>)}
             </Content>
-        </Container>
+        </Container>)}
+</>
+      
     );
 };
 

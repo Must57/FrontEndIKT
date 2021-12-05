@@ -74,8 +74,13 @@ export default ({
                         navigator("/", {replace:true})
                     }
                     const apiCall = useCallback(async (data) => {
+                        try {
                         let result = await axios.post('http://localhost:3031/createUser',data)
                         return result.data
+                        }
+                        catch(err){
+                            setProcess(false)
+                        }
                     })
                     const onSubmitInfo = async (e) => {e.preventDefault(); 
                         console.log(e);

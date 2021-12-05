@@ -10,6 +10,7 @@ import { ReactComponent as ChevronLeftIcon } from "feather-icons/dist/icons/chev
 import { ReactComponent as ChevronRightIcon } from "feather-icons/dist/icons/chevron-right.svg";
 
 import axios from 'axios';
+import { Spin } from "antd";
 
 
 const Container = tw.div`relative`;
@@ -67,7 +68,7 @@ const IconContainer = styled.div`
 const Text = tw.div`ml-2 text-sm font-semibold text-gray-800`;
 
 const PrimaryButton = tw(PrimaryButtonBase)`mt-auto sm:text-lg rounded-none w-full rounded sm:rounded-none sm:rounded-br-4xl py-3 sm:py-6`;
-export default () => {
+export default ({news}) => {
 
     const [loading, setLoading] = useState(true)
     // useState is used instead of useRef below because we want to re-render when sliderRef becomes available (not null)
@@ -126,28 +127,32 @@ export default () => {
 
     useEffect(
         ()=> {
-            axios.get("http://localhost:3038/nice")
-                .then(response => {
-                    setLoading(false)
+    
+                    setLoading(true)
 
-                    console.log(response);
                     const newNListData = []
                     let i = 0
+                    if (news.articles !== undefined) {
                     for(i=0; i < 10; i++){
-                        if(response.data.news.articles[i].topic === "news"){
-                            let resp = response.data.news.articles[i]
-                            console.log(response.data)
+                        if(news.articles[i].topic === "news"){
+                            let resp = news.articles[i]
+                         
                             newNListData.push(resp)
                         }
                     }
                     console.log(newNListData[0])
+                }
                     setNewsData(newNListData)
-                })
+                setLoading(false)
+                
         }, []
     )
 
     return (
-        <Container>
+        <>
+
+       {loading && (<Spin />)}
+       {!loading &&(<Container>
             <Content>
                 <HeadingWithControl>
                     <Heading>Actualités</Heading>
@@ -156,8 +161,10 @@ export default () => {
                         <NextButton onClick={sliderRef?.slickNext}><ChevronRightIcon/></NextButton>
                     </Controls>
                 </HeadingWithControl>
+                {newsData.length === 0 && (<Text>Aucune donnée trouvée </Text>)}
                 <CardSlider ref={setSliderRef} {...sliderSettings}>
-                    {newsData.map((nd, index) => (
+              
+                    {newsData.length >0 && newsData.map((nd, index) => (
                         <Card key={index}>
                             <CardImage imageSrc={nd !== undefined ? nd.media : ''} />
                             <TextInfo>
@@ -182,6 +189,8 @@ export default () => {
                     ))}
                 </CardSlider>
             </Content>
-        </Container>
+        </Container>)}
+       
+       </> 
     );
 };

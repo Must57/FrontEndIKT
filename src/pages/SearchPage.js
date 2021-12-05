@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from "react";
+import React, { Component, useEffect, useState } from "react";
 import tw from "twin.macro"; //eslint-disable-line
 import { css } from "styled-components/macro"; //eslint-disable-line
 import AnimationRevealPage from "helpers/AnimationRevealPage.js";
@@ -18,9 +18,10 @@ import SearchHeader from "../components/pageHead/SearchHeader.js"
 import {loginUser, updateInformationUser} from '../state/store/userReducer/actions/userAction'
 import ProfilHero from "components/hero/ProfilHero.js";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
 import { userSelector } from "state/store/userReducer/selector/userSelector.js";
+import axios from "axios";
 
 
 
@@ -28,7 +29,16 @@ export default () => {
     const user = useSelector(userSelector) 
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    useEffect(() => {
+    const location = useLocation()
+    const [dataReceived, setDataReceived] = useState(false)
+    const [searchData, setSearchData] = useState({news:'', city:'',meteo:''})
+    const [distanceBetween, setDistanceBetween] = useState('🏠 ➞ Loading..')
+    console.log(location)
+    
+    const city = location.pathname.split('/')[2]
+    console.log(city)
+
+    useEffect(async () => {
     if (!user.isLogged && (localStorage.getItem('user_token') === null || localStorage.getItem('user_info') === null)) {
         navigate('/connexion')
         toast.warn('Salut, tu devrais te connecter!')
@@ -38,21 +48,58 @@ export default () => {
         dispatch(updateInformationUser(JSON.parse(localStorage.getItem('user_info'))))
         }
     }
-});
+    // check city
+    if (city !== undefined){
+        const isreal = await axios.get('http://localhost:8000/cityinfo-service/isRealCity/'+ city, {headers:{'Authorization':'Bearer '+user.token}})
+
+    if (isreal.data.exist === false){
+        toast.warn('City not found..');
+        navigate('/')
+    }
+    }// check distance ebtween
+
+    const location = await axios.get('http://localhost:8000/location-service/location',  {headers:{'Authorization':'Bearer '+user.token}})
+    const myCity = location.data.city
+    if (myCity !== undefined) {
+        const dist = await axios.get('http://localhost:8000/cityinfo-service/distance/'+myCity+'/'+ city,  {headers:{'Authorization':'Bearer '+user.token}})
+        console.log(dist)
+    }
+    //check jwt expired
+    if (user !== undefined && user._id !== undefined && user.token !== undefined) {
+  try { 
+      const data =  await axios.get('http://localhost:8000/user-service/user/'+ user._id,{headers:{'Authorization':'Bearer '+user.token}})
+}catch(err) { 
+console.log(err)
+
+       navigate('/connexion')
+    
+       toast.warn('Votre authentification a expiré!')
+       dispatch(updateInformationUser({isLogged:false}))
+
+}
+    }
+    // search allabout
+console.log(user._id)
+    const searchRequest = await axios.post('http://localhost:8000/search-allaboutcity-service/search/'+ city,{userId:user._id},  {headers:{'Authorization':'Bearer '+user.token}})
+    console.log(searchRequest.data)
+    setSearchData(searchRequest.data)
+    setDataReceived(true)
+},[user]);
     
     return (
     <AnimationRevealPage>
 
         <SearchHero />
-            <SearchHeader />
-            <SearchNewsResult />
+            <SearchHeader heading={city} description={distanceBetween} />
+           
+         {dataReceived && (<><SearchNewsResult news={searchData.news} />
 
-        <SearchWeatherResult />
-        <SearchAllAboutCityResult />
-        <SearchHotelResult />
-        <SearchFlightResult />
-        <SearchTrainResult />
-        <SearchBusResult />
+<SearchWeatherResult meteo={searchData.meteo} city={city}/>
+<SearchAllAboutCityResult />
+<SearchHotelResult />
+<SearchFlightResult />
+<SearchTrainResult />
+<SearchBusResult /></>)}   
 
 
         <Footer />

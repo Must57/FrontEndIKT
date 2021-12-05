@@ -30,7 +30,7 @@ export default function App() {
     <Routes>
         <Route path="/connexion" element={<Connexion />} />
         <Route path="/inscription" element={<Inscription />} />
-        <Route path="/search" element={<SearchPage/>}/>
+        <Route path="/search/:city" element={<SearchPage/>}/>
         <Route path="/monProfil" element={<ProfilPage/>}/>
         <Route path="/mesFavoris" element={<FavorisPage/>}/>
         <Route path="/preferences" element={<PreferencesInscription/>}/>
