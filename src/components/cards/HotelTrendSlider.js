@@ -65,8 +65,8 @@ const IconContainer = styled.div`
   }
 `;
 const Text = tw.div`ml-2 text-sm font-semibold text-gray-800`;
-
-const PrimaryButton = tw(PrimaryButtonBase)`mt-auto sm:text-lg rounded-none w-full rounded sm:rounded-none sm:rounded-br-4xl py-3 sm:py-6`;
+const UrlText = tw.div`sm:text-lg text-white font-bold font-semibold`;
+const PrimaryButton = tw(PrimaryButtonBase)`mt-auto text-white sm:text-lg rounded-none w-full rounded sm:rounded-none sm:rounded-br-4xl py-3 sm:py-6`;
 export default () => {
     // useState is used instead of useRef below because we want to re-render when sliderRef becomes available (not null)
     const [sliderRef, setSliderRef] = useState(null);
@@ -93,36 +93,44 @@ export default () => {
     /* Change this according to your needs */
     const cards = [
         {
-            imageSrc: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80",
-            title: "Blanc Palace",
-            description: "Lorem ipsum dolor sit amet, consectur dolori adipiscing elit, sed do eiusmod tempor nova incididunt ut labore et dolore magna aliqua.",
-            locationText: "Bordeaux, France",
-            pricingText: "39/Jours",
-            rating: "4.8",
-        },
-        {
-            imageSrc: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80",
-            title: "Infinity Place",
-            description: "Lorem ipsum dolor sit amet, consectur dolori adipiscing elit, sed do eiusmod tempor nova incididunt ut labore et dolore magna aliqua.",
-            locationText: "Cannes, France",
-            pricingText: "85/Jours",
-            rating: "4.9",
-        },
-        {
-            imageSrc: "https://images.unsplash.com/photo-1549294413-26f195200c16?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80",
-            title: "Hôtel Dorava",
-            description: "Lorem ipsum dolor sit amet, consectur dolori adipiscing elit, sed do eiusmod tempor nova incididunt ut labore et dolore magna aliqua.",
+            imageSrc: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/137512047.jpg?k=5346ed0b764af55bde1c12a44473a383195070a75862ca4acc412c50260d6df9&o=&hp=1",
+            title: "Arome Hotel",
+            description: "Situé dans le centre de Nice, l’Arome Hotel propose des chambres climatisées avec une connexion Wi-Fi gratuite. Vous séjournerez à 1 km de la gare de Nice-Ville.\n" +
+                "\n" +
+                "Le petit-déjeuner gratuit se compose d'un croissant et d'une boisson chaude.",
             locationText: "Nice, France",
-            pricingText: "49/Jours",
-            rating: "5.0",
+            pricingText: "87/Nuit",
+            rating: "9.6",
+            url: "http://www.booking.com/Share-P6HnVz",
         },
         {
-            imageSrc: "https://images.unsplash.com/photo-1571770095004-6b61b1cf308a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=1024&w=768&q=80",
-            title: "Ciela Hôtel",
-            description: "Lorem ipsum dolor sit amet, consectur dolori adipiscing elit, sed do eiusmod tempor nova incididunt ut labore et dolore magna aliqua.",
+            imageSrc: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/155893839.jpg?k=e1e6852f32152cb331c8d62621db5a292eb42b4aab23fdc992df166e65a77ade&o=&hp=1",
+            title: "Port Royal Hotel",
+            description: "Bénéficiant d’un emplacement idéal dans le 5ème arrondissement de Paris, le Port Royal Hotel est situé à 1,6 km du jardin du Luxembourg, à 2,5 km de la Sainte-Chapelle et à 2,6 km de la cathédrale Notre-Dame. Un petit-déjeuner continental est servi tous les matins sur place.",
+            locationText: "Paris, France",
+            pricingText: "98/Nuit",
+            rating: "7.7",
+            url: "http://www.booking.com/Share-6OGvjm",
+        },
+        {
+            imageSrc: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/255718654.jpg?k=ea79fc34b2f1aaa63081f67c6e915ca0d71602a51223f591cddbb889700aab53&o=&hp=1",
+            title: "Studio Fleuri",
+            description: "Situé à 1,8 km de Palm Beach, le Studio Fleuri propose un restaurant, un bar et des hébergements climatisés avec balcon et connexion Wi-Fi gratuite." +
+                "\n" +
+                "Le Studio Fleuri possède une terrasse.",
             locationText: "Cannes, France",
-            pricingText: "66/Jours",
-            rating: "4.5",
+            pricingText: "149/Nuit",
+            rating: "5.0",
+            url: "http://www.booking.com/Share-z4p4IM",
+        },
+        {
+            imageSrc: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/155488563.jpg?k=a72fd702e21b5932ff7e7734317548d57c81db8c754df195007dc7fd2263ad50&o=&hp=1",
+            title: "Hilton Garden Inn",
+            description: "Situé à Bordeaux, à 1,5 km du pont de pierre, l'établissement Hilton Garden Inn Bordeaux Centre vous propose des hébergements climatisés, un bar, une réception ouverte 24h/24, une connexion Wi-Fi gratuite dans l’ensemble de ses locaux, et d'un restaurant",
+            locationText: "Bordeaux, France",
+            pricingText: "100/Jours",
+            rating: "8.5",
+            url: "http://www.booking.com/Share-gEstTS",
         },
     ]
 
@@ -168,7 +176,7 @@ export default () => {
                                     </SecondaryInfoContainer>
                                     <Description>{card.description}</Description>
                                 </TextInfo>
-                                <PrimaryButton>Réservez Maintenant</PrimaryButton>
+                                <PrimaryButton><a target="_blank" href={card.url}><UrlText>Réservez Maintenant</UrlText></a></PrimaryButton>
                             </Card>)
                     })}
                 </CardSlider>
