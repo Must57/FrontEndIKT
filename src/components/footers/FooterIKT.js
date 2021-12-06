@@ -6,6 +6,7 @@ import logo from "../../images/logo.svg";
 import { ReactComponent as FacebookIcon } from "../../images/facebook-icon.svg";
 import { ReactComponent as TwitterIcon } from "../../images/twitter-icon.svg";
 import { ReactComponent as YoutubeIcon } from "../../images/youtube-icon.svg";
+import { Link } from 'react-router-dom';
 
 
 const Container = tw(ContainerBase)`bg-black text-gray-100 -mx-8 -mb-8`
@@ -18,7 +19,7 @@ const LogoImg = tw.img`w-8`;
 const LogoText = tw.h5`ml-2 text-2xl font-black tracking-wider`;
 
 const LinksContainer = tw.div`mt-8 font-medium flex flex-wrap justify-center items-center flex-col sm:flex-row`
-const Link = tw.a`border-b-2 border-transparent hocus:text-gray-300 hocus:border-gray-300 pb-1 transition duration-300 mt-2 mx-4`;
+const Link2 = tw.a`border-b-2 border-transparent text-white hocus:text-gray-300 hocus:border-gray-300 pb-1 transition duration-300 mt-2 mx-4`;
 
 const SocialLinksContainer = tw.div`mt-10`;
 const SocialLink = styled.a`
@@ -39,9 +40,10 @@ export default () => {
                         <LogoText>I Know Travel</LogoText>
                     </LogoContainer>
                     <LinksContainer>
-                        <Link href="#">Accueil</Link>
-                        <Link href="#">Mon Profil</Link>
-                        <Link href="#">Informations</Link>
+                        <Link to="/"><Link2>Accueil</Link2></Link>
+                        <Link to="/monProfil"><Link2>Mon Profil</Link2></Link>
+                        <Link to="/"><Link2>Informations</Link2></Link>
+
                     </LinksContainer>
                     <SocialLinksContainer>
                         <SocialLink href="https://facebook.com">
