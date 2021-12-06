@@ -67,6 +67,8 @@ const IconContainer = styled.div`
 const Text = tw.div`ml-2 text-sm font-semibold text-gray-800`;
 
 const PrimaryButton = tw(PrimaryButtonBase)`mt-auto sm:text-lg rounded-none w-full rounded sm:rounded-none sm:rounded-br-4xl py-3 sm:py-6`;
+const UrlText = tw.div`sm:text-lg text-white font-bold font-semibold`;
+
 export default () => {
     // useState is used instead of useRef below because we want to re-render when sliderRef becomes available (not null)
     const [sliderRef, setSliderRef] = useState(null);
@@ -164,7 +166,7 @@ export default () => {
                                 </SecondaryInfoContainer>
                                 <Description>{card.description}</Description>
                             </TextInfo>
-                            <PrimaryButton>Réservez Maintenant</PrimaryButton>
+                            <PrimaryButton><UrlText>Réservez Maintenant</UrlText></PrimaryButton>
                         </Card>
                     ))}
                 </CardSlider>

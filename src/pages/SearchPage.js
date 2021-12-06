@@ -35,7 +35,14 @@ export default () => {
     const [searchData, setSearchData] = useState({news:'', city:'',meteo:'', allaboutcity:''})
     const [distanceBetween, setDistanceBetween] = useState('🏠 ➞ Loading..')
     console.log(location)
+    const disconnect = (valueMsg) => {
+        if (valueMsg.error === 'expired') {
+        navigate('/connexion')
     
+        toast.warn('Votre authentification a expiré!')
+        dispatch(updateInformationUser({isLogged:false}))
+        }
+    }
     const city = location.pathname.split('/')[2]
     console.log(city)
 
@@ -49,7 +56,8 @@ export default () => {
         dispatch(updateInformationUser(JSON.parse(localStorage.getItem('user_info'))))
         }
     }
-    if (user.token !== undefined) {
+    console.log(user.token)
+    if (user !== undefined && user.token !== undefined) {
     // check city
     let isreal
     if (city !== undefined){
@@ -57,11 +65,7 @@ export default () => {
          isreal = await axios.get('http://localhost:8000/cityinfo-service/isRealCity/'+ city, {headers:{'Authorization':'Bearer '+user.token}})
         }catch(err){
             console.log(err)
-
-      navigate('/connexion')
-    
-       toast.warn('Votre authentification a expiré!')
-       dispatch(updateInformationUser({isLogged:false}))
+            disconnect(err)
         }
     if (isreal !== undefined && isreal.data.exist === false){
         toast.warn('City not found..');
@@ -75,10 +79,7 @@ try{
 }catch(err){
     console.log(err)
 
-//navigate('/connexion')
-
-toast.warn('Votre authentification a expiré!')
-//dispatch(updateInformationUser({isLogged:false}))
+disconnect(err)
 }
 if (location !== undefined) {
     const myCity = location.data.city;
@@ -95,10 +96,7 @@ if (location !== undefined) {
 }catch(err) { 
 console.log(err)
 
-       navigate('/connexion')
-    
-       toast.warn('Votre authentification a expiré!')
-       dispatch(updateInformationUser({isLogged:false}))
+  disconnect(err)
 
 }
     }
@@ -111,6 +109,7 @@ console.log(user._id)
 }
 },[user]);
 
+
 //fait console.log() pour voir ce qu'il a
     
     return (
@@ -122,7 +121,7 @@ console.log(user._id)
          {dataReceived && (<><SearchNewsResult news={searchData.news} />
 
 <SearchWeatherResult meteo={searchData.meteo} city={city}/>
-<SearchAllAboutCityResult data={searchData.allaboutcity.allaboutcity}/>
+<SearchAllAboutCityResult data={searchData.allaboutcity}/>
 <SearchHotelResult />
 <SearchFlightResult />
 <SearchTrainResult />

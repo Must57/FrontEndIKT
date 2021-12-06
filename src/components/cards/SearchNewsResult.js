@@ -68,6 +68,7 @@ const IconContainer = styled.div`
 const Text = tw.div`ml-2 text-sm font-semibold text-gray-800`;
 
 const PrimaryButton = tw(PrimaryButtonBase)`mt-auto sm:text-lg rounded-none w-full rounded sm:rounded-none sm:rounded-br-4xl py-3 sm:py-6`;
+const UrlText = tw.div`sm:text-lg text-white font-bold font-semibold`;
 export default ({news}) => {
 
     const [loading, setLoading] = useState(true)
@@ -132,16 +133,18 @@ export default ({news}) => {
 
                     const newNListData = []
                     let i = 0
-                    if (news.articles !== undefined) {
-                    for(i=0; i < 10; i++){
-                        if(news.articles[i].topic === "news"){
-                            let resp = news.articles[i]
-                         
-                            newNListData.push(resp)
+                    if(news !== undefined) {
+                        if (news.articles !== undefined) {
+                            for (i = 0; i < 10; i++) {
+                                if (news.articles[i].topic === "news") {
+                                    let resp = news.articles[i]
+
+                                    newNListData.push(resp)
+                                }
+                            }
+                            console.log(newNListData[0])
                         }
                     }
-                    console.log(newNListData[0])
-                }
                     setNewsData(newNListData)
                 setLoading(false)
                 
@@ -184,7 +187,7 @@ export default ({news}) => {
                                 </SecondaryInfoContainer>
 
                             </TextInfo>
-                            <PrimaryButton><a target="_blank" href={nd !== undefined ? nd.link : ''}>Voir</a></PrimaryButton>
+                            <PrimaryButton><a target="_blank" href={nd !== undefined ? nd.link : ''}><UrlText>Voir</UrlText></a></PrimaryButton>
                         </Card>
                     ))}
                 </CardSlider>

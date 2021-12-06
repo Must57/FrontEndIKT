@@ -58,11 +58,28 @@ const DecoratorBlob2 = styled(SvgDecoratorBlob2)`
   ${tw`pointer-events-none -z-20 absolute left-0 bottom-0 h-80 w-80 opacity-15 transform -translate-x-2/3 text-black`}
 `;
 
+const UrlText = tw.div`sm:text-lg text-white font-bold font-semibold`;
+const UrlText2 = tw.div`text-black  `;
+
 export default ({
+
                     heading = "Lieux Importants",
                     data = {},  // possède: {banques:{banques:..,length:..}},..
+
                     tabs = {
-                        Commerces: [
+                        restaurants: [
+                            {
+                                imageSrc:
+                                    "https://images.unsplash.com/photo-1580913428735-bd3c269d6a82?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+                                title: "Monop'Nice GUISOL",
+                                content: "Adresse : 15 rue François Guisol, 06300 Nice",
+                                price: "Ouvert",
+                                rating: "5.0",
+                                reviews: "87",
+                                url: "#"
+                            }
+                        ],
+                        supermarche: [
                             {
                                 imageSrc:
                                     "https://images.unsplash.com/photo-1580913428735-bd3c269d6a82?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
@@ -144,7 +161,88 @@ export default ({
                                 url: "#"
                             }
                         ],
-                        Banques: [
+                        banques: [
+                            {
+                                imageSrc:
+                                    "https://images.unsplash.com/photo-1580913428735-bd3c269d6a82?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+                                title: "Monop'Nice GUISOL",
+                                content: "Adresse : 15 rue François Guisol, 06300 Nice",
+                                price: "Ouvert",
+                                rating: "5.0",
+                                reviews: "87",
+                                url: "#"
+                            },
+                            {
+                                imageSrc:
+                                    "https://images.unsplash.com/photo-1580913428706-c311e67898b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+                                title: "Monop'Nice GUISOL",
+                                content: "Adresse : 15 rue François Guisol, 06300 Nice",
+                                price: "Ouvert",
+                                rating: "4.8",
+                                reviews: "32",
+                                url: "#"
+                            },
+                            {
+                                imageSrc:
+                                    "https://images.unsplash.com/photo-1580913428706-c311e67898b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+                                title: "Monop'Nice GUISOL",
+                                content: "Adresse : 15 rue François Guisol, 06300 Nice",
+                                price: "Ouvert",
+                                rating: "4.9",
+                                reviews: "89",
+                                url: "#"
+                            },
+                            {
+                                imageSrc:
+                                    "https://images.unsplash.com/photo-1580913428706-c311e67898b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+                                title: "Monop'Nice GUISOL",
+                                content: "Adresse : 15 rue François Guisol, 06300 Nice",
+                                price: "Ouvert",
+                                rating: "4.6",
+                                reviews: "12",
+                                url: "#"
+                            },
+                            {
+                                imageSrc:
+                                    "https://images.unsplash.com/photo-1580913428706-c311e67898b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+                                title: "Monop'Nice GUISOL",
+                                content: "Adresse : 15 rue François Guisol, 06300 Nice",
+                                price: "Ouvert",
+                                rating: "4.2",
+                                reviews: "19",
+                                url: "#"
+                            },
+                            {
+                                imageSrc:
+                                    "https://images.unsplash.com/photo-1580913428706-c311e67898b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+                                title: "Monop'Nice GUISOL",
+                                content: "Adresse : 15 rue François Guisol, 06300 Nice",
+                                price: "Ouvert",
+                                rating: "5.0",
+                                reviews: "61",
+                                url: "#"
+                            },
+                            {
+                                imageSrc:
+                                    "https://images.unsplash.com/photo-1580913428706-c311e67898b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+                                title: "Monop'Nice GUISOL",
+                                content: "Adresse : 15 rue François Guisol, 06300 Nice",
+                                price: "Ouvert",
+                                rating: "4.2",
+                                reviews: "95",
+                                url: "#"
+                            },
+                            {
+                                imageSrc:
+                                    "https://images.unsplash.com/photo-1580913428706-c311e67898b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+                                title: "Monop'Nice GUISOL",
+                                content: "Adresse : 15 rue François Guisol, 06300 Nice",
+                                price: "Ouvert",
+                                rating: "3.9",
+                                reviews: "26",
+                                url: "#"
+                            }],
+                        pharmacie: [
                             {
                                 imageSrc:
                                     "https://images.unsplash.com/photo-1580913428735-bd3c269d6a82?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
@@ -226,89 +324,7 @@ export default ({
                                 url: "#"
                             }
                         ],
-                        Hôpitaux: [
-                            {
-                                imageSrc:
-                                    "https://images.unsplash.com/photo-1580913428735-bd3c269d6a82?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-                                title: "Monop'Nice GUISOL",
-                                content: "Adresse : 15 rue François Guisol, 06300 Nice",
-                                price: "Ouvert",
-                                rating: "5.0",
-                                reviews: "87",
-                                url: "#"
-                            },
-                            {
-                                imageSrc:
-                                    "https://images.unsplash.com/photo-1580913428706-c311e67898b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-                                title: "Monop'Nice GUISOL",
-                                content: "Adresse : 15 rue François Guisol, 06300 Nice",
-                                price: "Ouvert",
-                                rating: "4.8",
-                                reviews: "32",
-                                url: "#"
-                            },
-                            {
-                                imageSrc:
-                                    "https://images.unsplash.com/photo-1580913428706-c311e67898b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-                                title: "Monop'Nice GUISOL",
-                                content: "Adresse : 15 rue François Guisol, 06300 Nice",
-                                price: "Ouvert",
-                                rating: "4.9",
-                                reviews: "89",
-                                url: "#"
-                            },
-                            {
-                                imageSrc:
-                                    "https://images.unsplash.com/photo-1580913428706-c311e67898b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-                                title: "Monop'Nice GUISOL",
-                                content: "Adresse : 15 rue François Guisol, 06300 Nice",
-                                price: "Ouvert",
-                                rating: "4.6",
-                                reviews: "12",
-                                url: "#"
-                            },
-                            {
-                                imageSrc:
-                                    "https://images.unsplash.com/photo-1580913428706-c311e67898b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-                                title: "Monop'Nice GUISOL",
-                                content: "Adresse : 15 rue François Guisol, 06300 Nice",
-                                price: "Ouvert",
-                                rating: "4.2",
-                                reviews: "19",
-                                url: "#"
-                            },
-                            {
-                                imageSrc:
-                                    "https://images.unsplash.com/photo-1580913428706-c311e67898b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-                                title: "Monop'Nice GUISOL",
-                                content: "Adresse : 15 rue François Guisol, 06300 Nice",
-                                price: "Ouvert",
-                                rating: "5.0",
-                                reviews: "61",
-                                url: "#"
-                            },
-                            {
-                                imageSrc:
-                                    "https://images.unsplash.com/photo-1580913428706-c311e67898b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-                                title: "Monop'Nice GUISOL",
-                                content: "Adresse : 15 rue François Guisol, 06300 Nice",
-                                price: "Ouvert",
-                                rating: "4.2",
-                                reviews: "95",
-                                url: "#"
-                            },
-                            {
-                                imageSrc:
-                                    "https://images.unsplash.com/photo-1580913428706-c311e67898b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-                                title: "Monop'Nice GUISOL",
-                                content: "Adresse : 15 rue François Guisol, 06300 Nice",
-                                price: "Ouvert",
-                                rating: "3.9",
-                                reviews: "26",
-                                url: "#"
-                            }
-                        ],
-                        Postes: [
+                        postes: [
                             {
                                 imageSrc:
                                     "https://images.unsplash.com/photo-1580913428735-bd3c269d6a82?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
@@ -402,7 +418,7 @@ export default ({
      */
     const tabsKeys = Object.keys(tabs);
     const [activeTab, setActiveTab] = useState(tabsKeys[0]);
-
+    console.log('dataaaa', data)
     return (
         <Container>
             <ContentWithPaddingXl>
@@ -436,17 +452,11 @@ export default ({
                         initial={activeTab === tabKey ? "current" : "hidden"}
                         animate={activeTab === tabKey ? "current" : "hidden"}
                     >
-                        {tabs[tabKey].map((card, index) => (
+                        {data !== undefined && data[tabKey][tabKey].map((dataInfo, index) => (
                             <CardContainer key={index}>
-                                <Card className="group" href={card.url} initial="rest" whileHover="hover" animate="rest">
-                                    <CardImageContainer imageSrc={card.imageSrc}>
-                                        <CardRatingContainer>
-                                            <CardRating>
-                                                <StarIcon />
-                                                {card.rating}
-                                            </CardRating>
-                                            <CardReview>({card.reviews})</CardReview>
-                                        </CardRatingContainer>
+                                <Card className="group" href={""} initial="rest" whileHover="hover" animate="rest">
+                                    <CardImageContainer>
+                                        
                                         <CardHoverOverlay
                                             variants={{
                                                 hover: {
@@ -460,13 +470,17 @@ export default ({
                                             }}
                                             transition={{ duration: 0.3 }}
                                         >
-                                            <CardButton>Voir</CardButton>
+                                            <UrlText2>
+                                            {dataInfo.fields.website !== undefined && dataInfo.fields.url_caresteouvert !== undefined ?
+                                                <CardButton><a target="_blank" href={dataInfo.fields.website !== undefined ? dataInfo.fields.website : (dataInfo.fields.url_caresteouvert !== undefined ? dataInfo.fields.url_caresteouvert : '')}><UrlText>Voir</UrlText></a></CardButton>
+                                            : 'Nous n\'avons pas de site'}
+                                                </UrlText2>
                                         </CardHoverOverlay>
                                     </CardImageContainer>
                                     <CardText>
-                                        <CardTitle>{card.title}</CardTitle>
-                                        <CardContent>{card.content}</CardContent>
-                                        <CardPrice>{card.price}</CardPrice>
+                                        <CardTitle>{dataInfo.fields.name !== undefined ? dataInfo.fields.name : dataInfo.fields.brand}</CardTitle>
+                                        <CardContent>{dataInfo.fields.opening_hours !== undefined && dataInfo.fields.phone !== undefined ? "Heure d'ouverture : " + dataInfo.fields.opening_hours + "\n\n Numéro de téléphone : " + dataInfo.fields.phone : ''}</CardContent>
+                                        <CardPrice></CardPrice>
                                     </CardText>
                                 </Card>
                             </CardContainer>
