@@ -6,9 +6,15 @@ import { css } from "styled-components/macro"; //eslint-disable-line
 import { Container, ContentWithPaddingXl } from "components/misc/Layouts.js";
 import { SectionHeading } from "components/misc/Headings.js";
 import { PrimaryButton as PrimaryButtonBase } from "components/misc/Buttons.js";
-import { ReactComponent as StarIcon } from "images/star-icon.svg";
+
 import { ReactComponent as SvgDecoratorBlob1 } from "images/svg-decorator-blob-5.svg";
 import { ReactComponent as SvgDecoratorBlob2 } from "images/svg-decorator-blob-7.svg";
+import imgRestaurants from 'images/restaurants.png';
+import imgSupermarche from 'images/supermarche.png';
+import imgBanques from 'images/banques.png';
+import imgPostes from 'images/postes.png';
+import imgPharmacie from 'images/pharmacie.png';
+
 
 const HeaderRow = tw.div`flex justify-between items-center flex-col xl:flex-row`;
 const Header = tw(SectionHeading)``;
@@ -39,10 +45,10 @@ const CardRating = styled.div`
 `;
 
 const CardHoverOverlay = styled(motion.div)`
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 165, 60, 0.5);
   ${tw`absolute inset-0 flex justify-center items-center`}
 `;
-const CardButton = tw(PrimaryButtonBase)`text-sm`;
+const CardButton = tw(PrimaryButtonBase)`text-sm bg-black`;
 
 const CardReview = tw.div`font-medium text-xs text-gray-600`;
 
@@ -59,7 +65,7 @@ const DecoratorBlob2 = styled(SvgDecoratorBlob2)`
 `;
 
 const UrlText = tw.div`sm:text-lg text-white font-bold font-semibold`;
-const UrlText2 = tw.div`text-black  `;
+const UrlText2 = tw.div`text-white font-semibold  `;
 
 export default ({
 
@@ -67,7 +73,7 @@ export default ({
                     data = {},  // possède: {banques:{banques:..,length:..}},..
 
                     tabs = {
-                        restaurants: [
+                        supermarche: [
                             {
                                 imageSrc:
                                     "https://images.unsplash.com/photo-1580913428735-bd3c269d6a82?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
@@ -79,10 +85,10 @@ export default ({
                                 url: "#"
                             }
                         ],
-                        supermarche: [
+                        restaurants: [
                             {
                                 imageSrc:
-                                    "https://images.unsplash.com/photo-1580913428735-bd3c269d6a82?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+                                    "images/restaurants.png",
                                 title: "Monop'Nice GUISOL",
                                 content: "Adresse : 15 rue François Guisol, 06300 Nice",
                                 price: "Ouvert",
@@ -455,8 +461,8 @@ export default ({
                         {data !== undefined && data[tabKey][tabKey].map((dataInfo, index) => (
                             <CardContainer key={index}>
                                 <Card className="group" href={""} initial="rest" whileHover="hover" animate="rest">
-                                    <CardImageContainer>
-                                        
+
+                                    <CardImageContainer imageSrc={(dataInfo.fields.type === "restaurant" ? imgRestaurants : dataInfo.fields.type === "bank" ? imgBanques : dataInfo.fields.type === "supermarket" ? imgSupermarche : dataInfo.fields.type === "pharmacy" ? imgPharmacie : dataInfo.fields.type === "post_office" ? imgPostes : '')}>
                                         <CardHoverOverlay
                                             variants={{
                                                 hover: {
