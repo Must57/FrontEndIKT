@@ -22,6 +22,7 @@ import { useLocation, useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
 import { userSelector } from "state/store/userReducer/selector/userSelector.js";
 import axios from "axios";
+import { Spin } from "antd";
 
 
 
@@ -48,22 +49,45 @@ export default () => {
         dispatch(updateInformationUser(JSON.parse(localStorage.getItem('user_info'))))
         }
     }
+    if (user.token !== undefined) {
     // check city
+    let isreal
     if (city !== undefined){
-        const isreal = await axios.get('http://localhost:8000/cityinfo-service/isRealCity/'+ city, {headers:{'Authorization':'Bearer '+user.token}})
+        try {
+         isreal = await axios.get('http://localhost:8000/cityinfo-service/isRealCity/'+ city, {headers:{'Authorization':'Bearer '+user.token}})
+        }catch(err){
+            console.log(err)
 
-    if (isreal.data.exist === false){
+      navigate('/connexion')
+    
+       toast.warn('Votre authentification a expiré!')
+       dispatch(updateInformationUser({isLogged:false}))
+        }
+    if (isreal !== undefined && isreal.data.exist === false){
         toast.warn('City not found..');
         navigate('/')
     }
     }// check distance ebtween
+    let location
+try{
+     location = await axios.get('http://localhost:8000/location-service/location',  {headers:{'Authorization':'Bearer '+user.token}})
+    
+}catch(err){
+    console.log(err)
 
-    const location = await axios.get('http://localhost:8000/location-service/location',  {headers:{'Authorization':'Bearer '+user.token}})
-    const myCity = location.data.city
+//navigate('/connexion')
+
+toast.warn('Votre authentification a expiré!')
+//dispatch(updateInformationUser({isLogged:false}))
+}
+if (location !== undefined) {
+    const myCity = location.data.city;
+
     if (myCity !== undefined) {
         const dist = await axios.get('http://localhost:8000/cityinfo-service/distance/'+myCity+'/'+ city,  {headers:{'Authorization':'Bearer '+user.token}})
         console.log(dist)
     }
+}
     //check jwt expired
     if (user !== undefined && user._id !== undefined && user.token !== undefined) {
   try { 
@@ -84,6 +108,7 @@ console.log(user._id)
     console.log(searchRequest.data)
     setSearchData(searchRequest.data)
     setDataReceived(true)
+}
 },[user]);
 
 //fait console.log() pour voir ce qu'il a
@@ -93,7 +118,7 @@ console.log(user._id)
 
         <SearchHero />
             <SearchHeader heading={city} description={distanceBetween} />
-           
+           {!dataReceived && (<center><Spin size="large"/></center>)}
          {dataReceived && (<><SearchNewsResult news={searchData.news} />
 
 <SearchWeatherResult meteo={searchData.meteo} city={city}/>
