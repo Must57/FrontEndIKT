@@ -10,6 +10,7 @@ import { ReactComponent as LocationIcon } from "feather-icons/dist/icons/map-pin
 import { ReactComponent as AccueilIcon } from "feather-icons/dist/icons/home.svg";
 import { ReactComponent as MonProfilIcon } from "feather-icons/dist/icons/user.svg";
 import { ReactComponent as MesFavorisIcon } from "feather-icons/dist/icons/heart.svg";
+import { ReactComponent as DeconnexionIcon} from "feather-icons/dist/icons/log-out.svg";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { userSelector } from "state/store/userReducer/selector/userSelector.js";
@@ -91,6 +92,20 @@ const IconContainer3 = styled.div`
   }
 `;
 
+const IconContainer4 = styled.div`
+  ${tw`inline-block rounded-full p-2 bg-orange-400 text-gray-100 hover:bg-green-400`}
+  svg {
+    ${tw`w-5 h-5`}
+  }
+`;
+
+const IconContainer5 = styled.div`
+  ${tw`inline-block rounded-full p-2 bg-orange-400 text-gray-100 hover:bg-red-800`}
+  svg {
+    ${tw`w-5 h-5`}
+  }
+`;
+
 export default () => {
   const user = useSelector(userSelector)
     const navLinks = [
@@ -102,6 +117,9 @@ export default () => {
                     </IconContainer3>
                 </NavLink>
             </Link>
+
+        </NavLinks>,
+        <NavLinks key={2}>
             <Link to="/monProfil">
                 <NavLink href="#">
                     <IconContainer3>
@@ -109,6 +127,8 @@ export default () => {
                     </IconContainer3>
                 </NavLink>
             </Link>
+        </NavLinks>,
+        <NavLinks key={3}>
             <Link to="/mesFavoris">
                 <NavLink href="#">
                     <IconContainer2>
@@ -117,7 +137,7 @@ export default () => {
                 </NavLink>
             </Link>
         </NavLinks>,
-        <NavLinks key={2}>
+        <NavLinks key={4}>
             <Actions>
                 <input type="text" placeholder="Saisir une ville" />
                 <Link to="/SearchPage">
@@ -126,13 +146,20 @@ export default () => {
 
             </Actions>
         </NavLinks>,
-        <NavLinks key={3}>
+        <NavLinks key={5}>
             <NavLink href="/#">
-                <IconContainer>
+                <IconContainer4>
                     <LocationIcon/>
-                </IconContainer>
+                </IconContainer4>
             </NavLink>
-        </NavLinks>
+        </NavLinks>,
+        <NavLinks key={6}>
+            <NavLink href="/#">
+                <IconContainer5>
+                    <DeconnexionIcon/>
+                </IconContainer5>
+            </NavLink>
+        </NavLinks>,
     ];
     const callDecouverte = async() => {
 

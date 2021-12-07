@@ -9,6 +9,7 @@ import { ReactComponent as LocationIcon } from "feather-icons/dist/icons/map-pin
 import { ReactComponent as AccueilIcon } from "feather-icons/dist/icons/home.svg";
 import { ReactComponent as MonProfilIcon } from "feather-icons/dist/icons/user.svg";
 import { ReactComponent as MesFavorisIcon } from "feather-icons/dist/icons/heart.svg";
+import { ReactComponent as DeconnexionIcon} from "feather-icons/dist/icons/log-out.svg";
 import {Link} from "react-router-dom";
 
 const StyledHeader = styled(Header)`
@@ -62,6 +63,20 @@ const IconContainer3 = styled.div`
   }
 `;
 
+const IconContainer4 = styled.div`
+  ${tw`inline-block rounded-full p-2 bg-orange-400 text-gray-100 hover:bg-green-400`}
+  svg {
+    ${tw`w-5 h-5`}
+  }
+`;
+
+const IconContainer5 = styled.div`
+  ${tw`inline-block rounded-full p-2 bg-orange-400 text-gray-100 hover:bg-red-800`}
+  svg {
+    ${tw`w-5 h-5`}
+  }
+`;
+
 export default () => {
     const navLinks = [
         <NavLinks key={1}>
@@ -72,6 +87,9 @@ export default () => {
                     </IconContainer3>
                 </NavLink>
             </Link>
+
+        </NavLinks>,
+        <NavLinks key={2}>
             <Link to="/monProfil">
                 <NavLink href="#">
                     <IconContainer3>
@@ -79,26 +97,39 @@ export default () => {
                     </IconContainer3>
                 </NavLink>
             </Link>
-            <NavLink href="#">
-                <IconContainer2>
-                    <MesFavorisIcon/>
-                </IconContainer2>
-            </NavLink>
         </NavLinks>,
-        <NavLinks key={2}>
+        <NavLinks key={3}>
+            <Link to="/mesFavoris">
+                <NavLink href="#">
+                    <IconContainer2>
+                        <MesFavorisIcon/>
+                    </IconContainer2>
+                </NavLink>
+            </Link>
+        </NavLinks>,
+        <NavLinks key={4}>
             <Actions>
                 <input type="text" placeholder="Saisir une ville" />
-                <Link to="../SearchPage">
+                <Link to="/SearchPage">
                     <button>Rechercher</button>
                 </Link>
 
             </Actions>
         </NavLinks>,
-        <NavLinks key={3}>
-            <IconContainer>
-                <LocationIcon/>
-            </IconContainer>
-        </NavLinks>
+        <NavLinks key={5}>
+            <NavLink href="/#">
+                <IconContainer4>
+                    <LocationIcon/>
+                </IconContainer4>
+            </NavLink>
+        </NavLinks>,
+        <NavLinks key={6}>
+            <NavLink href="/#">
+                <IconContainer5>
+                    <DeconnexionIcon/>
+                </IconContainer5>
+            </NavLink>
+        </NavLinks>,
     ];
 
     return (
