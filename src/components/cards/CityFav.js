@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import tw from "twin.macro";
 import styled from "styled-components";
@@ -55,87 +55,36 @@ const IconContainer = styled.div`
 `;
 
 export default ({
-                    tabs = {
-                        Favoris: [
-                            {
-                                title: "Nice",
-                                favoris: 1,
-
-                                url: "#"
-                            },
-                            {
-                                title: "Paris",
-                                favoris: 1,
-
-                                url: "#"
-                            },
-                            {
-                                title: "Cannes",
-                                favoris: 1,
-
-                                url: "#"
-                            },
-                            {
-                                title: "Metz",
-                                favoris: 1,
-
-                                url: "#"
-                            },
-                            {
-                                title: "Brest",
-                                favoris: 1,
-
-                                url: "#"
-                            },
-                            {
-                                title: "Bordeaux",
-                                favoris: 1,
-                                url: "#"
-                            },
-                            {
-                                title: "Annecy",
-                                favoris: 1,
-                                url: "#"
-                            },
-                            {
-                                title: "Nancy",
-                                favoris: 1,
-                                url: "#"
-                            }
-                        ],
-
-
-                    }
+                favs
                 }) => {
 
-    const tabsKeys = Object.keys(tabs);
-
+    
     return (
         <Container>
 
 
-                {tabsKeys.map((tabKey, index) => (
+           
                     <TabContent>
-                        {tabs[tabKey].map((card, index) => (
+                        {favs !== undefined && favs.map((card, index) => (
                             <CardContainer key={index}>
                                 <Card>
 
                                     <CardText>
-                                        <CardTitle>{card.title}</CardTitle>
+                                        <CardTitle>{card}</CardTitle>
                                         <IconContainer>
 
                                         <FavorisIcon/>
 
                                     </IconContainer>
 
-                                        <CardContent>{card.content}</CardContent>
+                                       
 
                                     </CardText>
                                 </Card>
                             </CardContainer>
                         ))}
-                    </TabContent>
-                ))}
+                  </TabContent>
+            
             <DecoratorBlob1 />
             <DecoratorBlob2 />
         </Container>

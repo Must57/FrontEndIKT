@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import tw from "twin.macro";
+import {useNavigate} from "react-router-dom"
 import styled from "styled-components";
 import { css } from "styled-components/macro"; //eslint-disable-line
 import {Link} from 'react-router-dom'
@@ -12,8 +13,10 @@ import { ReactComponent as MonProfilIcon } from "feather-icons/dist/icons/user.s
 import { ReactComponent as MesFavorisIcon } from "feather-icons/dist/icons/heart.svg";
 import { ReactComponent as DeconnexionIcon} from "feather-icons/dist/icons/log-out.svg";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userSelector } from "state/store/userReducer/selector/userSelector.js";
+import { updateInformationUser } from "state/store/userReducer/actions/userAction.js";
+import { toast } from "react-toastify";
 
 
 const StyledHeader = styled(Header)`
@@ -108,6 +111,24 @@ const IconContainer5 = styled.div`
 
 export default () => {
   const user = useSelector(userSelector)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [city, setCity] = useState('')
+  const [searchVal, setSearchVal] = useState('/search/')
+  const disconnect = (e) => {
+e.preventDefault()
+    navigate('/connexion')
+
+    toast.success('Deconnexion effectuée!')
+    dispatch(updateInformationUser({...user,isLogged:false, token:''}))
+    localStorage.removeItem('user_token')
+    localStorage.removeItem('user_info')
+ 
+}
+useEffect(() => {
+setSearchVal("/search/"+city);
+
+}, [city])
     const navLinks = [
         <NavLinks key={1}>
             <Link to="/">
@@ -139,22 +160,22 @@ export default () => {
         </NavLinks>,
         <NavLinks key={4}>
             <Actions>
-                <input type="text" placeholder="Saisir une ville" />
-                <Link to="/SearchPage">
+                <input type="text" value={city} onChange={(v) => setCity(v.target.value)} placeholder="Saisir une ville" />
+                <Link to={searchVal}>
                     <button>Rechercher</button>
                 </Link>
 
             </Actions>
         </NavLinks>,
         <NavLinks key={5}>
-            <NavLink href="/#">
+            <NavLink href="/search">
                 <IconContainer4>
                     <LocationIcon/>
                 </IconContainer4>
             </NavLink>
         </NavLinks>,
         <NavLinks key={6}>
-            <NavLink href="/#">
+            <NavLink href="/#" onClick={disconnect}>
                 <IconContainer5>
                     <DeconnexionIcon/>
                 </IconContainer5>

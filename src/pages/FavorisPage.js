@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import tw from "twin.macro"; //eslint-disable-line
 import { css } from "styled-components/macro"; //eslint-disable-line
 import AnimationRevealPage from "helpers/AnimationRevealPage.js";
@@ -15,6 +15,12 @@ import FavorisListe from "../components/cards/CityFav";
 import styled from "styled-components";
 import { ReactComponent as ProfilIcon } from "feather-icons/dist/icons/user.svg";
 import logo from "../images/logo.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { userSelector } from "state/store/userReducer/selector/userSelector.js";
+import { Spin } from "antd";
+import { useNavigate } from "react-router";
+import { loginUser, updateInformationUser } from "state/store/userReducer/actions/userAction.js";
+import { toast } from "react-toastify";
 
 
 
@@ -43,15 +49,46 @@ export default ({
                     privacyPolicyUrl = "#",
                     signInUrl = "#"
 
-                }) => (
+                }) => {
+                  const navigate = useNavigate()
+                  const user = useSelector(userSelector)
+                  const [listFav, setListFav] = useState(undefined)
+                  const [loadData, setLoadData] = useState(true)
+                  const dispatch = useDispatch()
+               
+                  useEffect(() => {
+                    if (!user.isLogged && (localStorage.getItem('user_token') === null || localStorage.getItem('user_info') === null)) {
+                        navigate('/connexion')
+                        toast.warn('Salut, tu devrais te connecter!')
+                    } else {
+                        if (!user.isLogged) {
+                        dispatch(loginUser({payload: localStorage.getItem('user_token')}))
+                        dispatch(updateInformationUser(JSON.parse(localStorage.getItem('user_info'))))
+                        }
+                    }
+
+                    if (user.token !== undefined && user.favourites.length > 0) {
+                      setListFav(user.favourites)
+                      setLoadData(false)
+                    }
+                    else{
+                      if (user.favourites.length === 0){
+                        setListFav([])
+                        
+                      }
+                    }
+                },[user])
+                  return (
 
     <AnimationRevealPage>
 
         <MainHero />
         <FavorisHeader />
-        <FavorisListe/>
+        {!loadData && (<FavorisListe favs={listFav} />)}
+        {loadData && listFav === undefined && (<center><Spin /></center>)}
+        {loadData && listFav !== undefined && listFav.length === 0 && (<><center>Aucune ville en favoris disponible.</center><br /></>)}
 
         <Footer />
     </AnimationRevealPage>
 
-);
+);}

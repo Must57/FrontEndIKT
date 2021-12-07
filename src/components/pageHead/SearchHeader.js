@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import tw from "twin.macro";
 import { css } from "styled-components/macro"; //eslint-disable-line
 import { SectionHeading, Subheading as SubheadingBase } from "components/misc/Headings.js";
@@ -6,6 +6,12 @@ import { Container as ContainerBase, ContentWithPaddingXl } from "components/mis
 import { SectionDescription } from "components/misc/Typography";
 import styled from "styled-components";
 import { ReactComponent as FavorisIcon } from "feather-icons/dist/icons/heart.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { userSelector } from "state/store/userReducer/selector/userSelector";
+import { addFavourites, removeFavourites } from "state/store/userReducer/actions/userAction";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { Spin } from "antd";
 
 const Container = tw(ContainerBase)`my-8  lg:my-10 bg-gray-100 text-gray-100 -mx-8 px-8 text-center`;
 const HeadingContainer = tw.div``;
@@ -26,7 +32,7 @@ const IconContainer = styled.div`
 export default ({
                     subheading = "",
                     heading = "Nice",
-
+                    city,
                     description = "🏠 ➞ 506 km ",
                     /*
                     stats = [
@@ -44,16 +50,67 @@ export default ({
                         },
                     ]*/
                 }) => {
+                    const user = useSelector(userSelector)
+                    const dispatch = useDispatch()
+                    const [inFav, setInFav] = useState(false)
+                    const [loading, setLoading] = useState(false)
+                 
+                    const addFavourite = async (e) => 
+                    {
+                        let req
+                        if (user.favourites.includes(city)) {
+                            try {
+                                setLoading(true)
+                             req = await axios.post('http://localhost:8000/user-service/deleteFavourite',{userId: user._id, city},{headers:{'Authorization':'Bearer '+user.token}})
+                        if (req.data.message === "Updated"){
+                            dispatch(removeFavourites(city))
+                            console.log(user)
+                            localStorage.setItem('user_info',JSON.stringify(user))
+                         toast.success('Retiré des favoris !')
+                         
+                        }  
+                         }catch(err){
+ 
+                            }
+                            setLoading(false)
+                            
+                        }else {
+                           
+                           try {
+                               setLoading(true)
+                            req = await axios.post('http://localhost:8000/user-service/addFavourite',{userId: user._id, city},{headers:{'Authorization':'Bearer '+user.token}})
+                       if (req.data.message === "Updated"){
+                        dispatch(addFavourites(city))
+                        console.log(user)
+                        localStorage.removeItem('user_info')
+                        localStorage.setItem('user_info',JSON.stringify(user))
+                        toast.success('Ajouté dans les favoris !')
+                        
+                       }  
+                        }catch(err){
+
+                           }
+                        setLoading(false)   
+                    }
+                }
+
+                    useEffect(() => {
+                        if(user.token !== undefined) {
+                            setInFav(user.favourites.includes(city))
+                        }
+                    }, [user])
+                    
     return (
         <Container>
             <ContentWithPaddingXl>
                 <HeadingContainer>
-                    <Heading>{heading}</Heading>
+                    <Heading>{city}</Heading>
                     {description && <Description>{description}</Description>}
 
-                    <IconContainer>
-                        
-                            <FavorisIcon/>
+                    <IconContainer onClick={addFavourite}>
+                        {loading && (<Spin size="large" />)}
+                        {!loading && inFav && (    <FavorisIcon fill="red" />)}
+                        {!loading && !inFav && (<FavorisIcon />)}
 
                     </IconContainer>
                 </HeadingContainer>
