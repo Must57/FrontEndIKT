@@ -67,12 +67,12 @@ export default ({
                         }
                     }
 
-                    if (user.token !== undefined && user.favourites.length > 0) {
-                      setListFav(user.favourites)
+                    if (user.token !== undefined && user.favouritesCity.length > 0) {
+                      setListFav(user.favouritesCity)
                       setLoadData(false)
                     }
                     else{
-                      if (user.favourites.length === 0){
+                      if (user.favouritesCity.length === 0){
                         setListFav([])
                         
                       }

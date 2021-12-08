@@ -141,12 +141,11 @@ setSearchVal("/search/"+city);
             </Actions>
         </NavLinks>,
         <NavLinks key={5}>
-            <Link to="/search"><NavLink href="/search">
+            <NavLink href="/search">
                 <IconContainer4>
                     <LocationIcon/>
                 </IconContainer4>
             </NavLink>
-            </Link>
         </NavLinks>,
         <NavLinks key={6}>
             <NavLink href="/#" onClick={disconnect}>
@@ -156,7 +155,6 @@ setSearchVal("/search/"+city);
             </NavLink>
         </NavLinks>,
     ];
-
     return (
         <Container>
 

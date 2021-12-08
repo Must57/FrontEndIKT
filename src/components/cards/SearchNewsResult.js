@@ -135,7 +135,7 @@ export default ({news}) => {
                     let i = 0
                     if(news !== undefined) {
                         if (news.articles !== undefined) {
-                            for (i = 0; i < 10; i++) {
+                            for (i = 0; i < news.articles.length; i++) {
                                 if (news.articles[i].topic === "news") {
                                     let resp = news.articles[i]
 

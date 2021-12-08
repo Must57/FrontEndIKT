@@ -14,7 +14,7 @@ const initialState = {
         max_allow_distance: 0,
         climat_choice: []
     },
-    favourites: [],
+    favouritesCity: [],
     password:''
 }
 
@@ -40,11 +40,11 @@ export const userReducer = function (state= initialState, action) {
         case CHANGE_PASSWORD:
             return {...state, password: action.payload}
         case ADD_FAVOURITES:
-                return {...state, favourites:[...state.favourites,action.payload]}
+                return {...state, favouritesCity:[...state.favourites,action.payload]}
         case DISCONNECT:
             return {...state, isLogged: false, token: action.payload }
         case REMOVE_FAVOURITE:
-            return {...state, favourites: [...state.favourites.filter((e) => e !== action.payload)]}
+            return {...state, favouritesCity: [...state.favourites.filter((e) => e !== action.payload)]}
 
         default: return state
     }

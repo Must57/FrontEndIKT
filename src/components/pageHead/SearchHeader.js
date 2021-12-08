@@ -33,7 +33,7 @@ export default ({
                     subheading = "",
                     heading = "Nice",
                     city,
-                    description = "🏠 ➞ 506 km ",
+                    description = " ",
                     /*
                     stats = [
                         {
@@ -52,13 +52,13 @@ export default ({
                 }) => {
                     const user = useSelector(userSelector)
                     const dispatch = useDispatch()
-                    const [inFav, setInFav] = useState(false)
+                    const [inFav, setInFav] = useState('')
                     const [loading, setLoading] = useState(false)
                  
                     const addFavourite = async (e) => 
                     {
                         let req
-                        if (user.favourites.includes(city)) {
+                        if (user.favouritesCity.includes(city)) {
                             try {
                                 setLoading(true)
                              req = await axios.post('http://localhost:8000/user-service/deleteFavourite',{userId: user._id, city},{headers:{'Authorization':'Bearer '+user.token}})
@@ -96,7 +96,8 @@ export default ({
 
                     useEffect(() => {
                         if(user.token !== undefined) {
-                            setInFav(user.favourites.includes(city))
+                            setInFav(user.favouritesCity.includes(city))
+                            setLoading(false)   
                         }
                     }, [user])
                     
@@ -107,12 +108,12 @@ export default ({
                     <Heading>{city}</Heading>
                     {description && <Description>{description}</Description>}
 
-                    <IconContainer onClick={addFavourite}>
+                    {inFav !== '' && (<IconContainer onClick={addFavourite}>
                         {loading && (<Spin size="large" />)}
                         {!loading && inFav && (    <FavorisIcon fill="red" />)}
                         {!loading && !inFav && (<FavorisIcon />)}
-
-                    </IconContainer>
+                      
+                    </IconContainer>)}
                 </HeadingContainer>
 
             </ContentWithPaddingXl>

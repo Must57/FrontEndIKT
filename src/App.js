@@ -14,6 +14,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Inscription from "pages/Inscription";
 import SearchPage from "./pages/SearchPage";
 import ProfilPage from "./pages/ProfilPage";
+import Decouverte from "./pages/Decouverte"
 import PreferencesInscription from "./pages/PreferencesInscription";
 
 
@@ -32,6 +33,7 @@ export default function App() {
         <Route path="/inscription" element={<Inscription />} />
         <Route path="/search/:city" element={<SearchPage/>}/>
         <Route path="/search" element={<SearchPage/>}/>
+        <Route path="/decouverte" element={<Decouverte />} />
         <Route path="/monProfil" element={<ProfilPage/>}/>
         <Route path="/mesFavoris" element={<FavorisPage/>}/>
         <Route path="/preferences" element={<PreferencesInscription/>}/>
