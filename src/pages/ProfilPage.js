@@ -42,6 +42,8 @@ const SubmitButton = styled.button`
   }
 `;
 
+
+
 function DebounceSelect({ fetchOptions, debounceTimeout = 800, ...props }) {
     const [fetching, setFetching] = React.useState(false);
     const [options, setOptions] = React.useState([]);
@@ -286,22 +288,29 @@ console.log('donne recu')
                         <MainContent>
                             <Form onSubmit={onSubmit}>
                                 <Title>Modification de vos informations personnelles</Title>
-                                <p tw="mt-6 text-xs text-gray-600 text-center">
+                                <p tw="mt-8 text-xs text-black text-gray-600">
                                     N'oubliez pas d'enregistrer les modifications de vos informations
                                 </p>
-                                Prénom
+
+                                <p tw="mt-8 -mb-3 text-xs text-black">Prénom</p>
                                 <Input type="text" placeholder="Prénom" value={userInfo.firstname} onChange={e => onChanged(e,"firstname")} />
-                              Nom
+
+                                <p tw="mt-6 -mb-3 text-xs text-black">Nom</p>
                                 <Input type="text" placeholder="Nom" value={userInfo.lastname} onChange={e => onChanged(e,"lastname")} />
-                              Pseudo
+
+                                <p tw="mt-6 -mb-3 text-xs text-black">Pseudo</p>
                                 <Input type="text" placeholder="Pseudo" value={userInfo.username} onChange={e => onChanged(e,"username")} />
-                               Email
+
+                                <p tw="mt-6 -mb-3 text-xs text-black">Email</p>
                                 <Input type="email" placeholder="Email" value={userInfo.email} onChange={e => onChanged(e,"email")} />
-                              Date de naissance
+
+                                <p tw="mt-6 -mb-3 text-xs text-black">Date de naissance</p>
                                 <Input type="date" placeholder="Date de naissance" value={userInfo.birthday} onChange={e => onChanged(e,"birthday")} />
-                               Ville
-                               <Input type="text" placeholder="Ville" value={userInfo.city}  onChange={e => onChanged(e,"city")} />
-                               Numéro de téléphone
+
+                                <p tw="mt-6 -mb-3 text-xs text-black">Ville</p>
+                                <Input type="text" placeholder="Ville" value={userInfo.city}  onChange={e => onChanged(e,"city")} />
+
+                                <p tw="mt-6 -mb-3 text-xs text-black">Numéro de téléphone</p>
                                 <Input type="text" placeholder="Numéro de téléphone" value={userInfo.numberPhone} onChange={e => onChanged(e,"numberPhone")} />
 
 
@@ -327,12 +336,18 @@ console.log('donne recu')
                         <p tw="mt-6 text-xs text-gray-600 text-center">
                             N'oubliez pas d'enregistrer votre nouveau mot de passe
                         </p>
+
+                        <p tw="mt-8 -mb-3 text-xs text-black">Mot de passe actuel</p>
                         <Input type="password" placeholder="Mot de passe actuel" value={currentPassword} onChange={(e) => {
                             setCurrentPassword(e.target.value)
                         }}/>
+
+                        <p tw="mt-6 -mb-3 text-xs text-black">Nouveau mot de passe</p>
                         <Input type="password" placeholder="Nouveau Mot de passe" value={newPass} onChange={(e) => {
                             setNewPass(e.target.value)
                         }} />
+
+                        <p tw="mt-6 -mb-3 text-xs text-black">Confirmation du mot de passe</p>
                         <Input type="password" placeholder="Confirmer votre mot de passe" value={newPass2} onChange={(e) => {
                             setNewPass2(e.target.value)
                         }}/>
@@ -356,7 +371,7 @@ console.log('donne recu')
 
                         <Form onSubmit={onSubmitPref}>
 
-                            <p tw="mt-6 mb-5 text-xs text-gray-600 text-left">Listez les regions que vous favorisez (vide si ce n'est pas important pour vous)</p>
+                            <p tw="mt-2 mb-2 text-xs text-black text-left">Listez les regions que vous favorisez (vide si ce n'est pas important pour vous)</p>
                             <DebounceSelect
       mode="multiple"
       value={listRegionsFav}
@@ -371,7 +386,7 @@ console.log('donne recu')
         width: '100%',
       }}
     />
-                            <p tw="mt-6 mb-5 text-xs text-gray-600 text-left">Exclure des villes?</p>
+                            <p tw="mt-6 mb-2 text-xs text-black text-left">Exclure des villes?</p>
                             <DebounceSelect
       mode="multiple"
       value={listExcludeCity}
