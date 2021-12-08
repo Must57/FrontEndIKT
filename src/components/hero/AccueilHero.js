@@ -202,7 +202,7 @@ setSearchVal("/search/"+city);
                             <br />
                             <SlantedBackground>la montagne</SlantedBackground>
                         </Heading>
-                        <PrimaryAction onClick={callDecouverte}>Découvrez votre destination</PrimaryAction>
+                        <Link to="/decouverte"><PrimaryAction>Découvrez votre destination</PrimaryAction></Link>
                     </LeftColumn>
                     <RightColumn>
                         <StyledResponsiveVideoEmbed
