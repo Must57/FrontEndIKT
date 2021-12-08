@@ -423,8 +423,15 @@ export default ({
      * To see what attributes are configurable of each object inside this array see the example above for "Starters".
      */
     const tabsKeys = Object.keys(tabs);
+    const nametabs= {
+        restaurants:"Restaurants",
+        banques: "Banques",
+        supermarche:"Supermarche",
+        postes: "Postes",
+        pharmacie:"Pharmacie"
+    }
     const [activeTab, setActiveTab] = useState(tabsKeys[0]);
-    console.log('dataaaa', data)
+    
     return (
         <Container>
             <ContentWithPaddingXl>
@@ -433,7 +440,7 @@ export default ({
                     <TabsControl>
                         {Object.keys(tabs).map((tabName, index) => (
                             <TabControl key={index} active={activeTab === tabName} onClick={() => setActiveTab(tabName)}>
-                                {tabName}
+                                {nametabs[tabName]}
                             </TabControl>
                         ))}
                     </TabsControl>
