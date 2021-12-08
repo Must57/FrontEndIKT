@@ -176,6 +176,8 @@ export default () => {
       )}
       {!dataReceived && (
         <center>
+            <strong>Hey ! IKnowTravel a lancé son robot de recherche sur la ville que tu as saisies ! <br /> Merci de patienter..</strong><br />
+
           <Spin size="large" />
         </center>
       )}
