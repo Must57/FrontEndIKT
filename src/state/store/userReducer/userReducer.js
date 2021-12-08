@@ -40,11 +40,11 @@ export const userReducer = function (state= initialState, action) {
         case CHANGE_PASSWORD:
             return {...state, password: action.payload}
         case ADD_FAVOURITES:
-                return {...state, favouritesCity:[...state.favourites,action.payload]}
+                return {...state, favouritesCity:[...state.favouritesCity,action.payload]}
         case DISCONNECT:
             return {...state, isLogged: false, token: action.payload }
         case REMOVE_FAVOURITE:
-            return {...state, favouritesCity: [...state.favourites.filter((e) => e !== action.payload)]}
+            return {...state, favouritesCity: [...state.favouritesCity.filter((e) => e !== action.payload)]}
 
         default: return state
     }
