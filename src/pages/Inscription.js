@@ -121,9 +121,9 @@ export default ({
                             }
 
                             else {
-                                toast.success('Inscription effectuée !')
+                                toast.success('Inscription effectuée ! Vous pouvez vous connecter.')
                          
-                                navigator("/preferences", {state:{...registerData, userId: res.user._id}})
+                                navigator("/connexion", {state:{...registerData, userId: res.user._id}})
                                 setProcess(false)
                             
                             }
