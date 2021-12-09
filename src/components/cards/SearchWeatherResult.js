@@ -15,7 +15,7 @@ import axios from 'axios';
 import { Spin } from "antd";
 
 
-
+const UrlText = tw.div`sm:text-lg text-white font-bold font-semibold`;
 const Container = tw.div`relative`;
 const Content = tw.div`max-w-screen-xl mx-auto py-16 lg:py-20`;
 
@@ -74,6 +74,7 @@ const PrimaryButton = tw(PrimaryButtonBase)`mt-auto sm:text-lg rounded-none w-fu
 
 export default ({city,meteo}) => {
     const [loading, setLoading] = useState(true)
+    const [dataReceived, setDataReceived] = useState(false)
     //Change this according to your needs
     const [weatherData, setWeatherData] = useState([
         {
@@ -118,6 +119,7 @@ export default ({city,meteo}) => {
     useEffect(
         ()=> {
 
+
      console.log(meteo, 'receivzd')
 
                         setLoading(true)
@@ -126,8 +128,8 @@ export default ({city,meteo}) => {
                     if (meteo !== '') {
                     let i = 0
                     console.log('m',meteo)
-                    for (i=0; i < meteo.length; i++) {
-                        let resp = meteo[i]
+                    for (i=0; i < meteo.DailyForecasts.length; i++) {
+                        let resp = meteo.DailyForecasts[i]
                  
                         newListData.push(resp)
                     }
@@ -135,6 +137,7 @@ export default ({city,meteo}) => {
                 }
                     setWeatherData(newListData)
                     setLoading(false)
+                    setDataReceived(true)
                
         },[]
     )
@@ -173,17 +176,18 @@ export default ({city,meteo}) => {
                         <NextButton onClick={sliderRef?.slickNext}><ChevronRightIcon/></NextButton>
                     </Controls>
                 </HeadingWithControl>
-          {weatherData.length == 0 &&(<Text>Aucune donnée de météo trouvée!</Text>)}
-                {!loading &&(  <CardSlider ref={setSliderRef} {...sliderSettings}>
+                {!dataReceived && (<center><Spin size="large"/></center>)}
+          {weatherData.length == 0 && dataReceived  &&(<Text>Aucune donnée de météo trouvée!</Text>)}
+                {dataReceived &&(  <CardSlider ref={setSliderRef} {...sliderSettings}>
                     {weatherData.length >0 && weatherData.map((wh, index) => (
                         <Card key={index}>
-                            <CardImage /*imageSrc={*//*wh.imageSrc}*/ />
+                            {/*<CardImage imageSrc={*//*wh.imageSrc}/>*/}
                             <TextInfo>
                                 <TitleReviewContainer>
                                     <Title>{city}</Title>
                                     <RatingsInfo>
                                         <DurationIcon />
-                                        <Rating>{/*card.date*/}</Rating>
+                                        <Rating>{wh.Date.split('T')[0]}</Rating>
                                     </RatingsInfo>
                                 </TitleReviewContainer>
                                 <SecondaryInfoContainer>
@@ -191,18 +195,18 @@ export default ({city,meteo}) => {
                                         <IconContainer>
                                             <TempIcon />
                                         </IconContainer>
-                                        <Text>{wh.main !== undefined ? wh.main: ''}</Text>
+                                        <Text>{wh.Temperature.Minimum.Value} °C</Text>
                                     </IconWithText>
                                     <IconWithText>
                                     <IconContainer>
                                             <MaxTempIcon />
                                         </IconContainer>
-                                        <Text>{wh.main !== undefined ? wh.main.temp_max : ''}</Text>
+                                        <Text>{wh.Temperature.Maximum.Value} °C</Text>
                                     </IconWithText>
                                 </SecondaryInfoContainer>
-                                <Description>{ wh.description}</Description>
+                                <Description>{ wh.Day.IconPhrase}</Description>
                             </TextInfo>
-                            <PrimaryButton>Voir</PrimaryButton>
+                            <PrimaryButton><a target="_blank" href={wh.Link}><UrlText>Voir</UrlText></a></PrimaryButton>
                         </Card>
                     ))}
                 </CardSlider>)}
